@@ -3,6 +3,8 @@ const willChange = require('postcss-will-change')
 const willChangeTransition = require('postcss-will-change-transition')
 const ellipsis = require('postcss-ellipsis')
 
+const {locales,} = require('./app/lang/options')
+
 const dev = process.env.NODE_ENV === 'development'
 const ci = process.env.CI
 const analyze = dev && !ci
@@ -80,6 +82,30 @@ module.exports = {
   ],
   'modules': [
     '~/modules/apollo',
+    [
+      'nuxt-i18n', {
+        locales,
+        'detectBrowserLanguage': {
+          'useCookie': true,
+          'cookieKey': 'i18n_redirected',
+        },
+        'vuex': {
+          'moduleName': 'i18n',
+          'mutations':  {
+            'setLocale':   'i18n/set-locale',
+            'setMessages': 'i18n/set-messages',
+          },
+        },
+        'defaultLocale':         'en',
+        'noPrefixDefaultLocale': true,
+        'loadLanguagesAsync':    true,
+        'lazy':                  true,
+        'langDir':               'lang/',
+        'vueI18n':               {
+          'fallbackLocale': 'en',
+        },
+      },
+    ],
     [
       '@nuxtjs/markdownit', {
         'preset':  'default',

@@ -186,6 +186,7 @@
     "node-fetch": "^2.1.1",
     "nodemailer": "^4",
     "nuxt": "^1.4.0",
+    "nuxt-i18n": "^4.0.0",
     "p-retry": "^2.0.0",
     "p-timeout": "^2.0.1",
     "pify": "^3",
