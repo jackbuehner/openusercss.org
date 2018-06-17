@@ -3,5 +3,13 @@
   "popular-themes": "Popular themes",
   "stats-load-error": "Couldn't load statistics, retrying...",
   "attempts-left": "%{count} attempts left",
-  "language": "Language: %{lang}"
+  "language": "Language: %{lang}",
+  "log-in": "Log in",
+  "log-out": "Log out",
+  "home": "Home",
+  "welcome-username": "Welcome, %{username}",
+  "register": "Register",
+  "search": "Search",
+  "forums": "Forums",
+  "help": "Help"
 }

@@ -140,9 +140,9 @@
 </style>
 
 <template lang="pug">
-  include ../../components/static/microdata/user.pug
-  include ../../components/static/microdata/theme.pug
-  include ../../components/static/theme-card.pug
+  include ../../../components/static/microdata/user.pug
+  include ../../../components/static/microdata/theme.pug
+  include ../../../components/static/theme-card.pug
 
   .ouc-route-root
     +user-microdata

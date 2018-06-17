@@ -27,12 +27,12 @@
       'release': () => pkg.release.replace(/\w\S*/g, (text) => {
         return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase()
       }),
-      profileUrl () {
+      viewerId () {
         if (!this.viewer) {
-          return '/login'
+          return null
         }
 
-        return `/profile/${this.viewer._id}`
+        return this.viewer._id
       },
     },
     data () {
@@ -111,7 +111,7 @@
     .navbar.ouc-navbar.is-primary.is-brand-primary.md-shadow--2
       .container
         .navbar-brand.ouc-navbar-brand
-          nuxt-link(to="/").navbar-item.no-active
+          nuxt-link(:to="localePath('/')").navbar-item.no-active
             progressive-image(
               src="/img/openusercss.icon.svg",
               placeholder="/img/openusercss.icon-x16.png",
@@ -130,30 +130,30 @@
         .navbar-menu.is-primary.ouc-navbar-menu(:class="{'is-active': open, 'is-brand-primary': open}")
           .navbar-start
           .navbar-end(@click="close")
-            nuxt-link(v-show="session", :to="profileUrl").navbar-item
+            nuxt-link(v-show="session", :to="localePath({name: 'profile', params: {id: 'thing'}})").navbar-item
               fa-icon(icon="user")
-              | Welcome, {{viewer ? viewer.displayname : 'Guest'}}
+              | {{$t('welcome-username', {'username': viewer ? viewer.displayname : 'Guest'})}}
             a(v-show="session", @click.prevent="logout").navbar-item
               fa-icon(icon="sign-out-alt")
-              | Log out
-            nuxt-link(to="/").navbar-item
+              | {{$t('log-out')}}
+            nuxt-link(:to="localePath('/')").navbar-item
               fa-icon(icon="home")
-              | Home
-            nuxt-link(v-show="!session", to="/login").navbar-item
+              | {{$t('home')}}
+            nuxt-link(v-show="!session", :to="localePath('login')").navbar-item
               fa-icon(icon="sign-in-alt")
-              | Log in
-            nuxt-link(v-show="!session", to="/register").navbar-item
+              | {{$t('log-in')}}
+            nuxt-link(v-show="!session", :to="localePath('register')").navbar-item
               fa-icon(icon="user-plus")
-              | Register
-            nuxt-link(to="/search").navbar-item
+              | {{$t('register')}}
+            nuxt-link(:to="localePath('search')").navbar-item
               fa-icon(icon="search")
-              | Search
+              | {{$t('search')}}
             a(href="//forums.openusercss.org").navbar-item
               fa-icon(icon="users")
-              | Forums
-            nuxt-link(to="/help").navbar-item
+              | {{$t('forums')}}
+            nuxt-link(:to="localePath('help')").navbar-item
               fa-icon(icon="question-circle")
-              | Help
+              | {{$t('help')}}
 
     .body-spacer
 </template>
