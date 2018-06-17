@@ -1,6 +1,7 @@
 <script>
-  import versionQuery from '~/apollo/queries/version.gql'
+  import flags from 'emoji-flags'
 
+  import versionQuery from '~/apollo/queries/version.gql'
   import progressiveImage from '../bits/progressive-image.vue'
   import changelog from '~/../CHANGELOG.md'
 
@@ -15,14 +16,44 @@
       changelog () {
         return changelog
       },
+      currentLocale () {
+        const locale = this.$i18n.locales.find((localeItem) => {
+          return localeItem.code === this.$i18n.locale
+        })
+
+        if (!locale) {
+          return 'English'
+        }
+
+        return locale.name
+      },
+      flag () {
+        const emojiMap = {
+          'en': 'GB',
+        }
+
+        return (code) => {
+          const short = code.slice(-2)
+          const found = flags.countryCode(emojiMap[short.toLowerCase()] || short)
+
+          if (!found) {
+            // eslint-disable-next-line no-console
+            console.warn(`Cannot find flag emoji for ${code}`)
+            return ''
+          }
+
+          return found.emoji
+        }
+      },
     },
     mounted () {
       this.dev = this.dev || window.location.href.includes('staging')
     },
     data () {
       return {
-        'version': {},
-        'dev':     process.env.NODE_ENV === 'development',
+        'version':    {},
+        'dev':        process.env.NODE_ENV === 'development',
+        'langFilter': '',
       }
     },
   }
@@ -47,6 +78,14 @@
 
   .is-fullheight {
     height: 100%
+  }
+
+  .is-fullwidth {
+    width: 100%
+  }
+
+  .is-flex {
+    display: flex;
   }
 
   .patreon-logo {
@@ -100,6 +139,40 @@
 
   div.ouc-footer-wrapper
     modal(
+      name="language-switcher",
+      height="auto",
+      :scrollable="true"
+    )
+      .card
+        .card-header
+          .card-header-title.is-paddingless
+            .notification.is-brand-primary.is-fullwidth
+              fa-icon(icon="exclamation")
+              | Please be aware that your language may not be fully translated yet!
+
+        .card-content
+          p Please choose a language to use:
+          br
+          .control.has-icons-left
+            fa-icon.icon(icon="search")
+            input.input(v-model="langFilter", placeholder="Type here to filter languages")
+          br
+          p(v-if="filterBy($i18n.locales, langFilter).length === 0 && langFilter")
+            | No languages found for {{langFilter}}
+          table.table.is-fullwidth.is-hoverable.is-striped
+            tbody
+              tr(
+                v-for="locale in orderBy(filterBy($i18n.locales, langFilter), 'name')",
+                v-if="locale.code !== $i18n.locale",
+                :key="locale.code",
+              )
+                td.is-paddingless.is-flex
+                  nuxt-link.is-fullwidth.has-padding(
+                    :to="switchLocalePath(locale.code)"
+                  )
+                    | {{flag(locale.code)}} {{locale.name}}
+
+    modal(
       name="changelog-viewer",
       height="auto",
       :scrollable="true"
@@ -145,6 +218,11 @@
             a(href="//github.com/OpenUserCSS", target="_blank")
               fa-icon(icon="code-branch")
               | GitHub
+            .ouc-language-selector
+              fa-icon(icon="language")
+              a(@click="$modal.show('language-switcher')")
+                | {{$t('language', {'lang': currentLocale})}}
+
             div(v-if="dev")
               nuxt-link.has-text-primary(to="/test")
                 | Open test page

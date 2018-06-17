@@ -171,6 +171,7 @@
     "dashify": "^1.0.0",
     "delay": "^2",
     "email-templates": "^3",
+    "emoji-flags": "^1.2.0",
     "env-cmd": "^8.0.1",
     "express": "^4",
     "graphql-tools": "^2",
