@@ -136,7 +136,7 @@
                 | {{statsError}}
 
           .is-hidden-mobile.is-hidden-widescreen.has-margin-bottom
-            h2.has-bottom-margin Newest themes
+            h2.has-bottom-margin {{$t('newest-themes')}}
             .columns.is-multiline
               .column.is-4(v-for="(theme, index) in orderBy(limitBy(themes, 6), 'createdAt', -1)")
                 +theme-card(false, true)
@@ -156,7 +156,7 @@
 
           .columns
             .column.is-3.is-hidden-tablet-only.is-hidden-desktop-only
-              h2.has-bottom-margin Newest themes
+              h2.has-bottom-margin {{$t('newest-themes')}}
               .columns.is-multiline
                 nuxt-link.column.is-12(
                   v-for="(theme, index) in orderBy(limitBy(themes, 7), 'createdAt', -1)",
@@ -179,16 +179,16 @@
                         p {{theme.createdAt | moment('from', 'now')}}
 
             .column
-              h2.has-bottom-margin Popular themes
+              h2.has-bottom-margin {{$t('popular-themes')}}
               .columns.is-multiline
                 transition(name="fade-zoom")
                   .column.is-12(v-if="statsRetrying")
                     .notification.is-warning
                       .level
                         .level-left
-                          | Couldn't load statistics, retrying...
+                          | {{$('stats-load-error')}}
                           br
-                          | {{statsTryLeft + 1}} of 4 attempts left
+                          | {{$t('attempts-left', {'count': statsTryLeft})}}
                         .level-right
                           spinner(:size="45", :spinning="statsRetrying", speed="2s")
                 nuxt-link.column.is-4(
