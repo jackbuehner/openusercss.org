@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/OpenUserCSS/openusercss.org/compare/v1.5.0...v1.6.0) (2018-07-08)
+
+
+### Bug Fixes
+
+* **build:** Clean containers before build ([0dcfff9](https://github.com/OpenUserCSS/openusercss.org/commit/0dcfff9))
+* **client:** Make the loading component unobtrusive ([838a5b8](https://github.com/OpenUserCSS/openusercss.org/commit/838a5b8))
+
+
+### Features
+
+* **startscript:** Detached mode for testing ([936948e](https://github.com/OpenUserCSS/openusercss.org/commit/936948e))
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/OpenUserCSS/openusercss.org/compare/v1.4.6...v1.5.0) (2018-07-02)
 
