@@ -1,6 +1,5 @@
 import test, {client, appURL,} from '../helpers/end-to-end'
 import hat from 'hat'
-import path from 'path'
 
 test.serial('updates URL', async (t) => {
   const randomValue = hat()
@@ -12,7 +11,6 @@ test.serial('updates URL', async (t) => {
   .evaluate(() => location.href)
 
   t.is(url, `${appURL}/search?terms=${randomValue}`)
-  await client.screenshot(path.resolve('screenshots/test/end-to-end/search:updates-url.png'))
 })
 
 test.serial('input is URI encoded', async (t) => {
@@ -22,5 +20,4 @@ test.serial('input is URI encoded', async (t) => {
   .evaluate(() => location.href)
 
   t.is(url, `${appURL}/search?terms=hello%20world`)
-  await client.screenshot(path.resolve('screenshots/test/end-to-end/search:input-is-URI-encoded.png'))
 })

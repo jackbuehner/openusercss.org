@@ -4,6 +4,9 @@ import test, {
   username,
   password,
   email,
+  getErrors,
+  getToast,
+  getPath,
 } from '../helpers/end-to-end'
 
 const emailField = 'input[name="email"]'
@@ -11,13 +14,9 @@ const usernameField = 'input[name="displayname"]'
 const passwordField = 'input[name="password"]'
 const passwordVerifyField = 'input[name="passwordVerify"]'
 const tosSwitch = 'input[name="terms"]'
-const toastWrapper = '.iziToast-wrapper'
 const toastBody = '.iziToast-body'
 
 const submit = 'button[type="submit"]'
-const getErrors = () => document.querySelector('.error-bag').innerHTML
-const getToast = () => document.querySelector('.iziToast-wrapper').innerHTML
-const getPath = () => location.pathname
 
 test.serial('Cannot register without e-mail', async (t) => {
   const error = await client
@@ -70,6 +69,7 @@ test.serial('Cannot register without password', async (t) => {
 
   t.true(error.includes('The passphrase field is required'))
 })
+
 test.serial('Cannot register without password verification', async (t) => {
   const error = await client
   .type(passwordField, password)
@@ -118,6 +118,8 @@ test.serial('Redirects to login once registration is complete', async (t) => {
 })
 
 test.serial('Sends welcome e-mail correctly', async (t) => {
+  t.context.noScreenshot = true
+
   const mailResult = await t.context.smtp.captureOne(email, {
     'wait': 10000,
   })

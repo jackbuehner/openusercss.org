@@ -1,5 +1,4 @@
 import test, {client,} from '../helpers/end-to-end'
-import path from 'path'
 
 test.serial('contains correct text', async (t) => {
   const footerContent = await client
@@ -8,7 +7,6 @@ test.serial('contains correct text', async (t) => {
     return document.querySelector('.footer').innerHTML
   })
 
-  await client.screenshot(path.resolve('screenshots/test/end-to-end/footer:contains-correct-text.png'))
   t.truthy(footerContent.match(/Copyright&nbsp;©/g))
   t.truthy(footerContent.match(/forums.openusercss.org\/topic\/5\/privacy-policy.*Privacy policy/g))
   t.true(footerContent.includes('GitHub'))
