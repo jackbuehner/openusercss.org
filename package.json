@@ -29,7 +29,7 @@
     "lint:dry": "yarn lint-sh && lint-js:dry",
     "prebuild": "yarn ns && yarn clean",
     "build": "yarn env:prod gulp build && nuxt build && yarn env:prod backpack build",
-    "prerelease": "standard-version && yarn build",
+    "prerelease": "standard-version && ./start.sh -c && yarn build",
     "release": "TAG=decentm/openusercss DOMAIN=openusercss.org yarn env:prod docker-compose -f prod.stack.yml build",
     "postrelease": "git push --follow-tags origin master && docker push decentm/openusercss",
     "prestage": "yarn build",
