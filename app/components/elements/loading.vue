@@ -18,6 +18,11 @@
         'tickTimer': null,
       }
     },
+    'computed': {
+      layout () {
+        return this.$parent.layoutName
+      },
+    },
     'methods': {
       reset () {
         clearTimeout(this.slowTimer)
@@ -124,12 +129,16 @@
     transition-property: height, top;
     transition-timing-function: map-get($animations, 'animation-function');
     transition-duration: map-get($animations, 'shorttime');
-    top: map-get($kerning, 'navbar-height');
+    top: 0;
     height: 0;
     display: flex;
     z-index: 101;
     pointer-events: none;
     justify-content: center;
+
+    &:not(.top) {
+      top: map-get($kerning, 'navbar-height');
+    }
 
     &.show {
       height: .5rem;
@@ -162,5 +171,5 @@
 <template lang="pug">
   div
     button.button.is-primary(v-if="test", @click="finish") Finish
-    .ouc-quick-loading(:class="{'show': loading, 'large': slow}")
+    .ouc-quick-loading(:class="{'show': loading, 'large': slow, 'top': layout === 'bare'}")
 </template>

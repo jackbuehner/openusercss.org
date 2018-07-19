@@ -1,0 +1,6 @@
+@mixin smart-padding($size) {
+  padding-top: $size;
+  padding-bottom: $size;
+  padding-left: $size * 1.5;
+  padding-right: $size * 1.5;
+}
