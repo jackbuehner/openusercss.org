@@ -32,6 +32,9 @@ const sources = {
   'email': [
     'app/scss/email.scss',
   ],
+  'sitemap': [
+    'app/scss/sitemap.scss',
+  ],
   'emailTemplates': [
     'client/emails/**/*.pug',
     'client/email-views/**/*.pug',
@@ -47,6 +50,9 @@ const sources = {
   ],
   'vectors': [
     'client/img/**/*.svg',
+  ],
+  'other': [
+    'client/static/**/*',
   ],
 }
 
@@ -66,6 +72,13 @@ const destination = (dest) => {
 
   return path.resolve('./app/static/', dest)
 }
+
+gulp.task('static:copy', () => {
+  return pump([
+    gulp.src(sources.other),
+    gulp.dest(destination()),
+  ])
+})
 
 gulp.task('static:prod', (done) => {
   const iconStream = pump([
@@ -178,6 +191,18 @@ gulp.task('static:email', () => {
   ])
 })
 
+gulp.task('static:sitemap', () => {
+  return pump([
+    gulp.src(sources.sitemap),
+    sass(),
+    buffer(),
+    concat('sitemap.min.css'),
+    postcss(postCssPluginsProd),
+    flatten(),
+    gulp.dest(destination('css')),
+  ])
+})
+
 gulp.task('static:email-templates', () => {
   return pump([
     gulp.src(sources.emailTemplates),
@@ -186,10 +211,12 @@ gulp.task('static:email-templates', () => {
 })
 
 gulp.task('static:watch', () => {
-  gulp.watch('client/client/img/**/*', gulp.series('static:fast'))
   gulp.watch([
-    'app/scss/email.scss',
-  ], gulp.series('static:email'))
+    'client/img/*',
+    ...sources.other,
+  ], gulp.series('static:fast', 'static:copy'))
+  gulp.watch(sources.email, gulp.series('static:email'))
+  gulp.watch(sources.sitemap, gulp.series('static:sitemap'))
   gulp.watch([
     'client/email-views/**/*',
     'client/emails/**/*',

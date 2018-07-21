@@ -1,0 +1,7 @@
+User-Agent: *
+Disallow: /theme/edit
+Disallow: /account
+Disallow: /oauth
+Disallow: /test
+
+Sitemap: https://openusercss.org/sitemap.xml

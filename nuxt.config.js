@@ -105,14 +105,6 @@ module.exports = {
       },
     ],
     [
-      '@nuxtjs/sitemap', {
-        'exclude': [
-          '/theme/edit',
-          '/theme/edit/*',
-        ],
-      },
-    ],
-    [
       '@nuxtjs/pwa', {
         'icon': {
           'iconSrc': 'app/static/img/openusercss.icon-x128.png',
