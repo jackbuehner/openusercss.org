@@ -8,53 +8,61 @@ import User from './schema/user'
 import Session from './schema/session'
 import Rating from './schema/rating'
 
+let initialised = false
+let initialising = false
 const init = async () => {
-  const config = await staticConfig()
-  const connectionUrl = config.get('database.main')
+  if (!initialised && !initialising) {
+    initialising = true
+    const config = await staticConfig()
+    const connectionUrl = config.get('database.main')
 
-  await connect(connectionUrl)
-  log.info('API database connection established')
-  log.info('Rebuiding indexes')
-  const indexes = {
-    'themes': [
-      {
-        'title':       'text',
-        'description': 'text',
-        'content':     'text',
-      },
-      {
-        'weights': {
-          'title':       11,
-          'description': 4,
-          'content':     1,
+    await connect(connectionUrl)
+    log.info('API database connection established')
+    log.info('Rebuiding indexes')
+
+    const indexes = {
+      'themes': [
+        {
+          'title':       'text',
+          'description': 'text',
+          'content':     'text',
         },
-      },
-    ],
-    'users': [
-      {
-        'displayname': 'text',
-        'username':    'text',
-        'bio':         'text',
-      },
-      {
-        'weights': {
-          'displayname': 5,
-          'username':    3,
-          'bio':         1,
+        {
+          'weights': {
+            'title':       11,
+            'description': 4,
+            'content':     1,
+          },
         },
-      },
-    ],
+      ],
+      'users': [
+        {
+          'displayname': 'text',
+          'username':    'text',
+          'bio':         'text',
+        },
+        {
+          'weights': {
+            'displayname': 5,
+            'username':    3,
+            'bio':         1,
+          },
+        },
+      ],
+    }
+
+    forOwn(await camo.getClient().driver().collections(), (value) => {
+      value.dropIndexes()
+    })
+
+    forOwn(indexes, (value, key) => {
+      camo.getClient().driver().ensureIndex(key, value[0], value[1])
+    })
+
+    log.info('API database initialization completed')
+    initialising = false
+    initialised = true
   }
-
-  forOwn(await camo.getClient().driver().collections(), (value) => {
-    value.dropIndexes()
-  })
-
-  forOwn(indexes, (value, key) => {
-    camo.getClient().driver().ensureIndex(key, value[0], value[1])
-  })
-
-  log.info('API database initialization completed')
 }
 
 const migrate = async (version) => {
@@ -83,7 +91,7 @@ const migrate = async (version) => {
       }))
     })
 
-    await Promise.all(saves)
+    return Promise.all(saves)
   }
 }
 
