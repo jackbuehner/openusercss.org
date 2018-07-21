@@ -141,6 +141,9 @@
                 a(href="//forums.openusercss.org/topic/6/terms-of-service") Terms of service
                 | &#32;|&#32;
                 router-link(to="/notice") Notice
+            .tile
+              p
+                a(href="/sitemap.xml") Sitemap
           .column.has-text-centered
             a(href="//github.com/OpenUserCSS", target="_blank")
               fa-icon(icon="code-branch")
