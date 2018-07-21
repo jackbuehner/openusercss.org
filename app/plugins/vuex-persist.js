@@ -7,6 +7,7 @@ export default ({store,}) => {
     'storage': window.localStorage,
     'paths':   [
       'session',
+      'themes.editing',
     ],
   })
 
