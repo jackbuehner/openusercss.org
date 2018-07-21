@@ -13,7 +13,7 @@ export default async (root, {
 }, {Session, Theme, User, Rating, Option, token,}) => {
   const session = await mustAuthenticate(token, Session)
   const user = await User.findOne({
-    '_id': session.user._id,
+    '_id': session.user._id.toString(),
   })
   let newTheme = null
 
