@@ -12,6 +12,7 @@ services:
     volumes:
       - .:/ouc
       - .ignored/data:/ouc/build/data
+      - ~/.cache/yarn:/.cache/yarn
     environment:
       DISPLAY: :0
       OUC_DOMAIN: ${DOMAIN}
