@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.7.0"></a>
+# [1.7.0](https://github.com/OpenUserCSS/openusercss.org/compare/v1.6.0...v1.7.0) (2018-07-21)
+
+
+### Bug Fixes
+
+* **api:** Prevent initialising the database more than once ([8861d2d](https://github.com/OpenUserCSS/openusercss.org/commit/8861d2d))
+* **api:** Use string ID when saving a theme ([e89a7d9](https://github.com/OpenUserCSS/openusercss.org/commit/e89a7d9))
+* **client:** Remove error notifications from index page ([009328d](https://github.com/OpenUserCSS/openusercss.org/commit/009328d))
+* **client:** Save editor state to localstorage ([1709f33](https://github.com/OpenUserCSS/openusercss.org/commit/1709f33))
+* **deps:** Install missing production dependency ([1251203](https://github.com/OpenUserCSS/openusercss.org/commit/1251203))
+
+
+### Features
+
+* **client:** Render, serve and generate dynamic sitemaps ([b3901a1](https://github.com/OpenUserCSS/openusercss.org/commit/b3901a1))
+
+
+### Performance Improvements
+
+* **build:** Make yarn cache available to the development container ([6b40474](https://github.com/OpenUserCSS/openusercss.org/commit/6b40474))
+
+
+
 <a name="1.6.0"></a>
 # [1.6.0](https://github.com/OpenUserCSS/openusercss.org/compare/v1.5.0...v1.6.0) (2018-07-08)
 
