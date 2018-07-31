@@ -11,6 +11,7 @@ import userThemesQuery from './queries/user-themes'
 import licensesQuery from './queries/licenses'
 import sessionsQuery from './queries/sessions'
 import ratingsQuery from './queries/ratings'
+import forumTopicsQuery from './queries/forum-topics'
 
 import registerMutation from './mutations/register'
 import loginMutation from './mutations/login'
@@ -36,6 +37,7 @@ export default {
     'licenses':      licensesQuery,
     'sessions':      sessionsQuery,
     'ratings':       ratingsQuery,
+    'forumTopics':   forumTopicsQuery,
   },
   'Mutation': {
     viewer,

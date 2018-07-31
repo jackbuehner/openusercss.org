@@ -78,6 +78,14 @@ const outputTypeDefs = `
     source:     String
     sourceText: String
   }
+
+  # A \`Topic\` is an object that we derive from NodeBB's REST API
+  type Topic {
+    title: String!
+    url: String!
+    created: String!
+    author: String!
+  }
 `
 
 const inputTypeDefs = `
@@ -109,6 +117,13 @@ const queries = `
     version: Version!
     licenses: [License]!
     sessions: [Session]!
+
+    # Gets topics from the forum
+    #
+    # (announcements ID is \`11\`)
+    forumTopics(
+      id: Int!
+    ): [Topic]!
 
     theme(
       id: ID!
