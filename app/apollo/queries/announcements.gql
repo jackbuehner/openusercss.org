@@ -1,0 +1,7 @@
+query {
+  forumTopics(id: 11) {
+    title
+    url
+    created
+  }
+}

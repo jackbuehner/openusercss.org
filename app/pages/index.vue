@@ -15,6 +15,7 @@
       const get = Promise.all([
         store.dispatch('themes/latest'),
         store.dispatch('themes/popular'),
+        store.dispatch('forum/announcements'),
       ]).then(() => store.dispatch('stats/refill'))
 
       return get
@@ -66,6 +67,7 @@
         'stats':      'stats/all',
         'themeStats': 'stats/theme',
         'statsError': 'stats/error',
+        'announces':  'forum/announcements',
       }),
       popularThemes () {
         const merged = this.themes.map((theme) => {
@@ -207,4 +209,13 @@
                         p(v-if="themeStats(theme._id)")
                           | {{themeStats(theme._id).nb_hits}}
                           | {{themeStats(theme._id).nb_hits | pluralize('visit')}}
+
+        .section
+          h2.has-bottom-margin Announcements
+          .columns
+            .column.is-3(v-for="topic in limitBy(announces, 4)")
+              a(:href="topic.url", rel="noopener", target="_blank")
+                .box
+                  b {{topic.title | truncate(25)}}
+                  p {{topic.created | moment('from', 'now')}}
 </template>
