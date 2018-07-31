@@ -13,6 +13,8 @@ const outputTypeDefs = `
     donationUrl:    String!
   }
 
+  # A \`Session\` is an entity users log in with and deal in protected areas
+  # Contains a JSON web token that MUST be present in the \`authorization\` header
   type Session {
     _id:       ID!
     user:      User!
@@ -112,10 +114,19 @@ const inputTypeDefs = `
 
 const queries = `
   type Query {
+    # The currently logged in user
     viewer: User
+
+    # Verifies that the current session token is still valid
     verifyToken: Session!
+
+    # The global version object that is generated when the API is built
     version: Version!
+
+    # A list of licenses for packages that require licenses to be shown
     licenses: [License]!
+
+    # A list of sessions owned by the currently logged in user
     sessions: [Session]!
 
     # Gets topics from the forum
@@ -133,6 +144,7 @@ const queries = `
       id: ID!
     ): User!
 
+    # Gets all themes a user owns
     userThemes(
       id: ID!
     ): [Theme]!
@@ -151,6 +163,7 @@ const queries = `
       limit: Int
     ): [Theme]!
 
+    # Gets ratings for the theme you provide an ID for
     ratings(
       id: ID!
     ): [Rating]!
@@ -159,10 +172,17 @@ const queries = `
 
 const mutations = `
   type Mutation {
+    # The currently logged in use
     viewer: User
+
+    # Delete the current session from the database (log out the currently
+    # logged in user)
     logout: Boolean!
+
+    # Resend the e-mail address verification message
     resendVerification: Boolean!
 
+    # Verify the e-mail address by providing the token received via e-mail
     verifyEmail(
       token: String!
     ): Boolean!
@@ -182,6 +202,7 @@ const mutations = `
       id: ID!
     ): Boolean!
 
+    # If ID does not exist, create a theme. Otherwise, modify the given theme
     theme(
       id:          ID
       title:       String!
@@ -193,6 +214,9 @@ const mutations = `
       license:     String!
     ): Theme!
 
+    # Change account information
+    #
+    # At least one option is required
     account(
       password:    String
       displayname: String
@@ -201,6 +225,7 @@ const mutations = `
       donationUrl: String
     ): User!
 
+    # Submits a rating for a theme. Value can range from 1-5
     rate(
       id:    ID!
       value: Int!
