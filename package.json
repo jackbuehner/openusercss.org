@@ -196,6 +196,7 @@
     "isomorphic-fetch": "^2",
     "jsonwebtoken": "^8",
     "lodash": "^4",
+    "matomo-reporting-js": "^1",
     "moment": "^2",
     "morgan": "^1",
     "node-cp": "^0",

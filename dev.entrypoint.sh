@@ -3,7 +3,7 @@
 set -ex
 
 cd /ouc
-npm rebuild node-sass node-gyp
 yarn --frozen-lockfile
+npm rebuild node-sass node-gyp
 
 yarn watch

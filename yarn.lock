@@ -8355,6 +8355,14 @@ mathjs@^3.16.4:
     tiny-emitter "2.0.2"
     typed-function "0.10.7"
 
+matomo-reporting-js@^1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/matomo-reporting-js/-/matomo-reporting-js-1.1.1.tgz#8d6c38b7dbc3895ccdce598372b7e6065b53629c"
+  dependencies:
+    pify "^3.0.0"
+    querystring "^0.2.0"
+    superstruct "^0.5.4"
+
 md-shadows@^1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/md-shadows/-/md-shadows-1.0.0.tgz#f47c8f9cf81cd128f3195420a0880541b2eb0eb4"
@@ -12831,7 +12839,7 @@ sumchecker@^1.2.0:
     debug "^2.2.0"
     es6-promise "^4.0.5"
 
-superstruct@^0:
+superstruct@^0, superstruct@^0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-0.5.4.tgz#a0772963d62e7b0c92952bf9c3b90dd7065f721f"
   dependencies:
