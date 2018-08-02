@@ -1,4 +1,5 @@
-import {ObjectID,} from 'mongodb'
+import matomoTransformer from 'lib/matomo-to-graphql'
+import moment from 'moment'
 
 export default async (root, {limit,}, {User, Theme, Rating, matomo,}) => {
   const upperLimit = 25
@@ -9,31 +10,35 @@ export default async (root, {limit,}, {User, Theme, Rating, matomo,}) => {
   }
 
   const matomoStats = await matomo.query({
-    'method':       'Actions.getPageUrls',
-    'idSubtable':   3,
-    'segment':      'pageUrl!@viewingSource',
-    'filter_limit': limit,
+    'method':            'Actions.getPageUrls',
+    'period':            'range',
+    'date':              `${moment().subtract(1, 'months').format('YYYY-MM-DD')},today`,
+    'flat':              1,
+    'segment':           'pageUrl!@viewingSource;pageUrl!@edit;pageUrl=@%2Ftheme%2F',
+    'filter_limit':      limit,
+    'filter_sort_order': 'nb_visits',
   })
-  const stats = matomoStats.map((stat) => {
-    if (stat.label.length !== 25) {
-      return null
-    }
 
-    return {
-      'theme':  stat.label.substring(1),
-      'visits': stat.nb_visits,
-    }
-  }).filter(Boolean)
+  const gets = []
 
-  const finds = []
+  matomoStats.forEach((stat) => {
+    const themeId = stat.label.substring(1).split('/')[1]
 
-  stats.forEach(({theme, visits,}) => {
-    finds.push(Theme.findOne({
-      '_id': new ObjectID(theme),
+    gets.push(Theme.findOne({
+      '_id': themeId,
+    }).then((theme) => {
+      if (!theme) {
+        return null
+      }
+
+      return {
+        ...theme,
+        'stats': matomoTransformer(stat),
+      }
     }))
   })
 
-  const result = await Promise.all(finds)
+  const results = await Promise.all(gets)
 
-  return result.filter(Boolean)
+  return results.filter(Boolean)
 }

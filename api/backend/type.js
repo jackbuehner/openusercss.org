@@ -1,4 +1,32 @@
 const outputTypeDefs = `
+  # Statictics data from Matomo
+  type Stats {
+    # How many unique visits the entity has gotten
+    visits: Int!
+
+    # How many non-unique visits the entity has gotten
+    views: Int!
+
+    # How long it took to preset the page to the user
+    avgGeneration: Float!
+
+    # Approximately how long the user stayed on the page (seconds)
+    avgRetention: Float!
+
+    # How many visitors left after viewing the page (as opposed to viewing another)
+    #
+    # (percent)
+    exitRate: String!
+
+    # How many visitors left after viewing just this page
+    #
+    # (percent)
+    bounceRate: String!
+
+    # How many seconds users spent viewing this entity in total
+    totalTime: Int!
+  }
+
   type User {
     _id:            ID!
     username:       String!
@@ -11,6 +39,7 @@ const outputTypeDefs = `
     lastUpdate:     String!
     bio:            String!
     donationUrl:    String!
+    stats:          Stats!
   }
 
   # A \`Session\` is an entity users log in with and deal in protected areas
@@ -59,6 +88,7 @@ const outputTypeDefs = `
     screenshots: [String]
     license:     String!
     variables:   [ThemeVariable]
+    stats:       Stats!
   }
 
   type SearchResults {
