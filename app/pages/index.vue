@@ -188,6 +188,6 @@
             .column.is-3(v-for="topic in limitBy(announces, 4)")
               a(:href="topic.url", rel="noopener", target="_blank")
                 .box
-                  b {{topic.title | truncate(25)}}
+                  b {{topic.title | truncate(23)}}
                   p {{topic.created | moment('from', 'now')}}
 </template>
