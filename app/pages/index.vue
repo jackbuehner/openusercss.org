@@ -16,7 +16,7 @@
         store.dispatch('themes/latest'),
         store.dispatch('themes/popular'),
         store.dispatch('forum/announcements'),
-      ]).then(() => store.dispatch('stats/refill'))
+      ])
 
       return get
     },
@@ -63,36 +63,9 @@
     },
     'computed': {
       ...mapGetters({
-        'themes':     'themes/all',
-        'stats':      'stats/all',
-        'themeStats': 'stats/theme',
-        'statsError': 'stats/error',
-        'announces':  'forum/announcements',
+        'themes':    'themes/all',
+        'announces': 'forum/announcements',
       }),
-      popularThemes () {
-        const merged = this.themes.map((theme) => {
-          const statsExist = Boolean(this.stats[theme._id])
-
-          if (!statsExist) {
-            return null
-          }
-
-          return {
-            theme,
-            'stat': this.stats[theme._id],
-          }
-        })
-        const withStats = merged.filter((item) => Boolean(item))
-        const results = withStats
-        .sort((base, compare) => compare.stat.nb_hits - base.stat.nb_hits)
-        .map((item) => item.theme)
-
-        if (results.length === 0) {
-          return this.themes
-        }
-
-        return results
-      },
     },
     'methods': {
       averageRating (theme) {
@@ -165,7 +138,7 @@
               h2.has-bottom-margin Newest themes
               .columns.is-multiline
                 nuxt-link.column.is-12(
-                  v-for="(theme, index) in orderBy(limitBy(themes, 7), 'createdAt', -1)",
+                  v-for="(theme, index) in orderBy(limitBy(themes, 9), 'createdAt', -1)",
                   :key="theme._id",
                   :to="'/theme/' + theme._id"
                 )
@@ -189,7 +162,7 @@
               .columns.is-multiline
 
                 nuxt-link.column.is-4(
-                  v-for="(theme, index) in limitBy(popularThemes, 6)",
+                  v-for="(theme, index) in limitBy(orderBy(themes, 'stats.visits', -1), 9)",
                   :key="theme._id",
                   :to="'/theme/' + theme._id"
                 )
@@ -206,9 +179,8 @@
                           )
                       .media-content
                         b {{theme.user.displayname}}
-                        p(v-if="themeStats(theme._id)")
-                          | {{themeStats(theme._id).nb_hits}}
-                          | {{themeStats(theme._id).nb_hits | pluralize('visit')}}
+                        p
+                          | {{theme.stats.visits}} visits
 
         .section
           h2.has-bottom-margin Announcements

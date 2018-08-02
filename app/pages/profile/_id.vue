@@ -43,20 +43,20 @@
       isOnline (date) {
         return moment(this.time).diff(date) < 600000
       },
-      views (id) {
-        return this.$store.getters['stats/theme'](id)
-      },
-      getUserStats () {
-        if (this.showStats) {
-          const gets = []
-
-          this.themes.forEach((theme) => {
-            gets.push(this.$store.dispatch('stats/hits', theme._id,))
-          })
-
-          return Promise.all(gets)
-        }
-      },
+      // views (id) {
+      //   return this.$store.getters['stats/theme'](id)
+      // },
+      // getUserStats () {
+      //   if (this.showStats) {
+      //     const gets = []
+      //
+      //     this.themes.forEach((theme) => {
+      //       gets.push(this.$store.dispatch('stats/hits', theme._id,))
+      //     })
+      //
+      //     return Promise.all(gets)
+      //   }
+      // },
     },
     data () {
       return {
@@ -65,6 +65,7 @@
         'sortBy':      'createdAt',
         'sortReverse': null,
         'viewingOwn':  false,
+        'filter':      '',
       }
     },
     'computed': {
@@ -94,6 +95,10 @@
           {
             'title': 'Title',
             'value': 'title',
+          },
+          {
+            'title': 'Visits',
+            'value': 'stats.visits',
           },
         ]
       },
@@ -208,19 +213,9 @@
                           label(for="showStatsToggle")
                             | Show statistics
                         td.has-text-right
-                          .tile.is-parent.is-paddingless
-                            .tile.is-child
-                              transition(name="fade-zoom")
-                                spinner(
-                                  v-if="statsLoading"
-                                  :size="20",
-                                  :spinning="statsLoading"
-                                )
-                            .tile.is-child
-                              b-switch#showStatsToggle(
-                                v-model="showStats",
-                                @change="getUserStats"
-                              )
+                          b-switch#showStatsToggle(
+                            v-model="showStats"
+                          )
 
                       tr
                         td
@@ -246,40 +241,17 @@
                             v-model="sortReverse"
                           )
 
-                transition(name="fade-zoom")
-                  .tile.is-child.is-12(v-if="statsError && showStats")
-                    hr
-                    .notification.is-danger
-                      p
-                        fa-icon(icon="times")
-                        b Error: {{statsError}}
-                        br
-                        br
-                      p
-                        | If you have an extension that filters connections,
-                        | please check if that may be blocking our connection to
-                        |
-                        code pwk.decentm.com
-                        | .
-                        br
-                        | OpenUserCSS uses a self-hosted Matomo instance to
-                        | query statistics.
-                        |
-                        a(
-                          href="https://forums.openusercss.org/topic/5/privacy-policy"
-                          rel="noopener"
-                          target="_blank"
-                        ) Check the privacy policy here
-
             .column.is-6
-              div.ouc-user-donation-wrapper(v-if="user.donationUrl && user.donationUrl !== ''", is-paddingless)
+              .ouc-user-donation-wrapper(v-if="user.donationUrl && user.donationUrl !== ''", is-paddingless)
                 a.button.is-primary(:href="user.donationUrl", target="_blank", rel="nofollow noopener")
                   | Support {{user.displayname}}'s themes by donating
                 hr
 
+              input.input.has-bottom-margin(placeholder="Filter themes", v-model="filter")
+
               .columns.is-multiline(v-if="viewingOwn")
                 nuxt-link.column.is-12(
-                  v-for="(theme, index) in orderBy(themes, sortBy, sortReverse ? -1 : 0)",
+                  v-for="(theme, index) in filterBy(orderBy(themes, sortBy, sortReverse ? 0 : -1), filter)",
                   :key="theme._id",
                   :to="'/theme/' + theme._id"
                 )
@@ -294,23 +266,23 @@
                       p(v-else-if="sortBy === 'lastUpdate'")
                         | {{sortOptions.find((option) => option.value === sortBy).title}}:
                         | {{theme[sortBy] | moment('from', 'now')}}
+                      p(v-else-if="sortBy === 'stats.visits'")
+                        | {{sortOptions.find((option) => option.value === sortBy).title}}:
+                        | {{theme.stats.visits}}
                       p(v-else)
                         | {{sortOptions.find((option) => option.value === sortBy).title}}:
                         | {{theme[sortBy]}}
 
                     transition(name="fade-zoom")
-                      .level(v-if="showStats && views(theme._id)")
-                        table.table.is-fullwidth.is-striped.is-hoverable.is-narrow
-                          tbody
-                            tr(v-if="views(theme._id).nb_visits !== views(theme._id).nb_hits")
-                              td Unique visitors
-                              td {{views(theme._id).nb_visits}}
-                            tr
-                              td Views overall
-                              td {{views(theme._id).nb_hits}}
-                            tr
-                              td Average viewing time (seconds)
-                              td {{views(theme._id).nb_hits}}
+                      .level(v-if="showStats")
+                        p
+                          span(v-if="theme.stats.views")
+                            | Unique visits: {{theme.stats.visits}}
+                            br
+                          | Total views: {{theme.stats.views}}
+                          span(v-if="theme.stats.avgRetention")
+                            br
+                            | Average retention time: {{theme.stats.avgRetention}} seconds
 
               .columns.is-multiline(v-else)
                 nuxt-link.column.is-6(

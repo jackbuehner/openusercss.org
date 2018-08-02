@@ -16,20 +16,6 @@ mixin theme-card(hasImage, hasOverride)
             height="8rem",
             size="cover"
           )
-            .ouc-screenshot-overlay(slot="overlay")
-              .tile.is-parent
-                .tile.is-child
-                  no-ssr
-                    star-rating.is-pulled-right(
-                      :rating="countAverageRating(theme)",
-                      :star-size="15",
-                      :show-rating="false",
-                      :read-only="true",
-                      active-color="#FFB450",
-                      inactive-color="#FFFFFF",
-                      border-color="#FFFFFF",
-                      :border-width="2"
-                    )
 
     if block && !hasOverride
       .card-content

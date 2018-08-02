@@ -8462,8 +8462,8 @@ mathjs@^3.16.4:
     typed-function "0.10.7"
 
 matomo-reporting-js@^1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/matomo-reporting-js/-/matomo-reporting-js-1.1.1.tgz#8d6c38b7dbc3895ccdce598372b7e6065b53629c"
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/matomo-reporting-js/-/matomo-reporting-js-1.2.0.tgz#6a0c925a9e017f14190b7f521f4888e95ea7be02"
   dependencies:
     pify "^3.0.0"
     querystring "^0.2.0"
