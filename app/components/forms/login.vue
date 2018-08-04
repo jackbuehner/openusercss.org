@@ -20,7 +20,6 @@
       'buttonColour': String,
       'submitText':   String,
     },
-    // 'watch'
     data () {
       return {
         'loginData': {
@@ -28,6 +27,15 @@
           'password': '',
         },
       }
+    },
+    'methods': {
+      async validateAndSubmit () {
+        const valid = await this.$validator.validateAll()
+
+        if (valid) {
+          this.submit(this.loginData)
+        }
+      },
     },
     'computed': mapGetters({
       'viewer':  'session/viewer',
@@ -47,7 +55,7 @@
     fa-icon.has-margin-right(icon="sign-in-alt")
     p {{submitText | placeholder('Login')}}
 
-  form(@submit.prevent="submit", @change="$emit('input', loginData)").ouc-login-form
+  form(@submit.prevent="validateAndSubmit", @change="$emit('input', loginData)").ouc-login-form
     .tile.is-ancestor
       .tile.is-parent.is-vertical
         .tile.is-child
@@ -82,7 +90,7 @@
                     data-vv-as="passphrase",
                     aria-label="login passphrase"
                   )
-        .tile.is-parent.is-paddingless.has-text-left
+        .tile.is-parent.is-paddingless.is-vertical.has-text-left
           .tile.is-child
             button.button(
               v-if="buttonColour",
@@ -98,9 +106,9 @@
             )
               +login-button-content
 
-          hr(v-show="errors.any()")
-          notification.is-danger.error-bag(v-show="errors.any()", icon="exclamation", color="is-danger")
-            div(slot="content")
-              ul
-                li(v-for="error in errors.all()") {{error}}
+          .tile.is-child
+            notification.is-danger.error-bag(v-show="errors.any()", icon="exclamation", color="is-danger")
+              div(slot="content")
+                ul
+                  li(v-for="error in errors.all()") {{error}}
 </template>

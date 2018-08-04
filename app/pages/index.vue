@@ -34,33 +34,6 @@
         'statsTryLeft':  4,
       }
     },
-    mounted () {
-      if (this.statsError) {
-        const tries = this.statsTryLeft
-        const request = async () => {
-          await this.$store.dispatch('stats/refill')
-          const success = !this.statsError
-
-          if (!success) {
-            throw new Error('Stats request failed')
-          }
-        }
-
-        retry(request, {
-          'retries':         tries,
-          'onFailedAttempt': (error) => {
-            this.statsError = null
-            this.statsRetrying = true
-            this.statsTryLeft = error.attemptsLeft
-          },
-        }).then(() => {
-          this.statsRetrying = false
-          this.statsTryLeft = tries
-        }).catch((error) => {
-          this.statsError = error.message
-        })
-      }
-    },
     'computed': {
       ...mapGetters({
         'themes':    'themes/all',
