@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.8.0"></a>
+# [1.8.0](https://github.com/OpenUserCSS/openusercss.org/compare/v1.7.0...v1.8.0) (2018-08-04)
+
+
+### Bug Fixes
+
+* **api:** Fix popular themes with matomo-reporting-js ([0d8d0d5](https://github.com/OpenUserCSS/openusercss.org/commit/0d8d0d5))
+* **client:** Prevent line overflow by two characters on forum posts ([eb7eb0b](https://github.com/OpenUserCSS/openusercss.org/commit/eb7eb0b))
+* **login-form:** Validate form before running the submit function ([d4b65d1](https://github.com/OpenUserCSS/openusercss.org/commit/d4b65d1))
+* **login-forms:** Fix extra space below submit button ([20894d7](https://github.com/OpenUserCSS/openusercss.org/commit/20894d7))
+
+
+### Features
+
+* **api:** Get latest announcements from the forums ([b3fa7c4](https://github.com/OpenUserCSS/openusercss.org/commit/b3fa7c4))
+* **api:** Grab entity statistics from API and fix popular themes ([86e1000](https://github.com/OpenUserCSS/openusercss.org/commit/86e1000))
+* **client:** Fix popular themes and use stats information from API ([4bde4b7](https://github.com/OpenUserCSS/openusercss.org/commit/4bde4b7))
+* **client:** Show latest announcements on front page below themes ([1f243bf](https://github.com/OpenUserCSS/openusercss.org/commit/1f243bf))
+
+
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.com/OpenUserCSS/openusercss.org/compare/v1.6.0...v1.7.0) (2018-07-21)
 
