@@ -106,7 +106,7 @@
             )
               +login-button-content
 
-          .tile.is-child
+          .tile.is-child(v-if="errors.any()")
             notification.is-danger.error-bag(v-show="errors.any()", icon="exclamation", color="is-danger")
               div(slot="content")
                 ul
