@@ -23,7 +23,7 @@ test.serial('visits /login', async (t) => {
     return document.querySelector('.ouc-login-form .button').innerHTML
   })
 
-  t.true(loginForm.includes('Log in to OpenUserCSS'))
+  t.true(loginForm.includes('type="email" name="email" autocomplete="email"'))
   t.true(loginButton.includes('Login'))
 })
 

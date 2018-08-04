@@ -33,7 +33,16 @@ export const username = hat(64)
 export const password = hat(64)
 export const email = `${env.TEST_MAIL_USER}+${username}@${env.TEST_MAIL_DOMAIN}`
 
-export const getErrors = () => document.querySelector('.error-bag').innerHTML
+export const getErrors = () => {
+  let result = ''
+  const $errors = document.querySelectorAll('.error-bag')
+
+  $errors.forEach(($error) => {
+    result = result + $error.innerHTML
+  })
+
+  return result
+}
 export const getToast = () => document.querySelector('.iziToast-wrapper').innerHTML
 export const getPath = () => location.pathname
 
