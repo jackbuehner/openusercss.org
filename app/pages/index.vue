@@ -7,7 +7,6 @@
 
   import {mapGetters,} from 'vuex'
   import starRating from 'vue-star-rating'
-  import retry from 'p-retry'
 
   export default {
     'transition': 'fade-zoom',

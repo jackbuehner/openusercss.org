@@ -1,4 +1,6 @@
-import mustAuthenticate from '../../../lib/enforce-session'
+import mustAuthenticate from 'lib/enforce-session'
+import matomoTransformer from 'lib/matomo-to-graphql'
+
 import moment from 'moment'
 
 export default async (root, {
@@ -10,7 +12,7 @@ export default async (root, {
   screenshots,
   variables,
   license,
-}, {Session, Theme, User, Rating, Option, token,}) => {
+}, {Session, Theme, User, Rating, Option, token, matomo,}, {fieldNodes,}) => {
   const session = await mustAuthenticate(token, Session)
   const user = await User.findOne({
     '_id': session.user._id.toString(),
@@ -59,6 +61,19 @@ export default async (root, {
 
   user.lastSeen = moment().toJSON()
   await user.save()
+
+  if (JSON.stringify(fieldNodes).includes('stats')) {
+    const stats = await matomo.query({
+      'method':  'Actions.getPageUrl',
+      'pageUrl': `/theme/${id}`,
+      'period':  'range',
+      'date':    `${moment().subtract(1, 'months').format('YYYY-MM-DD')},today`,
+      'flat':    1,
+      'segment': 'pageUrl!@viewingSource;pageUrl!@edit;pageUrl=@%2Ftheme%2F',
+    })
+
+    savedTheme.stats = matomoTransformer(stats)
+  }
 
   return savedTheme
 }
