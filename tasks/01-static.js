@@ -1,32 +1,32 @@
-import gulp from 'gulp'
-import pump from 'pump'
-import merge from 'merge-stream'
-import buffer from 'gulp-buffer'
-import filter from 'gulp-filter'
-import path from 'path'
-import remember from 'gulp-remember'
-import cached from 'gulp-cached'
+const gulp = require('gulp')
+const pump = require('pump')
+const merge = require('merge-stream')
+const buffer = require('gulp-buffer')
+const filter = require('gulp-filter')
+const path = require('path')
+const remember = require('gulp-remember')
+const cached = require('gulp-cached')
 
 // IMAGES
-import imagemin from 'gulp-imagemin'
-import jpegRecompress from 'imagemin-jpeg-recompress'
-import jimp from 'gulp-jimp-resize'
+const imagemin = require('gulp-imagemin')
+const jpegRecompress = require('imagemin-jpeg-recompress')
+const jimp = require('gulp-jimp-resize')
 
 // SASS
-import sass from 'gulp-sass'
+const sass = require('gulp-sass')
 
 // POSTCSS
-import postcss from 'gulp-postcss'
+const postcss = require('gulp-postcss')
 
 // OTHER
-import concat from 'gulp-concat'
-import flatten from 'gulp-flatten'
-import {
+const concat = require('gulp-concat')
+const flatten = require('gulp-flatten')
+const {
   iconSizes,
   bgSizes,
   sizes,
   postCssPluginsProd,
-} from './shared/css'
+} = require('./shared/css')
 
 const sources = {
   'email': [

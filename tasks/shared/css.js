@@ -1,18 +1,18 @@
-import rucksack from 'rucksack-css'
-import fixes from 'postcss-fixes'
-import willChange from 'postcss-will-change'
-import willChangeTransition from 'postcss-will-change-transition'
-import ellipsis from 'postcss-ellipsis'
+const rucksack = require('rucksack-css')
+const fixes = require('postcss-fixes')
+const willChange = require('postcss-will-change')
+const willChangeTransition = require('postcss-will-change-transition')
+const ellipsis = require('postcss-ellipsis')
 
-import cssnano from 'cssnano'
-import advancedPreset from 'cssnano-preset-advanced'
+const cssnano = require('cssnano')
+const advancedPreset = require('cssnano-preset-advanced')
 
 const customPreset = advancedPreset({
   'discardComments':     false,
   'normalizeWhitespace': false,
 })
 
-export const postCssPluginsFunctional = [
+const postCssPluginsFunctional = module.exports.postCssPluginsFunctional = [
   // Syntax extending plugins
   rucksack({
     'autoprefixer':      false,
@@ -27,7 +27,7 @@ export const postCssPluginsFunctional = [
   willChangeTransition(),
 ]
 
-export const postCssPluginsProdComponents = [
+module.exports.postCssPluginsProdComponents = [
   ...postCssPluginsFunctional,
   fixes(),
   cssnano({
@@ -35,7 +35,7 @@ export const postCssPluginsProdComponents = [
   }),
 ]
 
-export const postCssPluginsProd = [
+module.exports.postCssPluginsProd = [
   ...postCssPluginsFunctional,
   fixes(),
   cssnano({
@@ -43,14 +43,14 @@ export const postCssPluginsProd = [
   }),
 ]
 
-export const iconSizesPx = [
+const iconSizesPx = module.exports.iconSizesPx = [
   16,
   32,
   64,
   128,
 ]
 
-export const bgSizesPx = [
+const bgSizesPx = module.exports.bgSizesPx = [
   1366,
   1920,
   640,
@@ -58,7 +58,7 @@ export const bgSizesPx = [
   128,
 ]
 
-export const elementSizesPx = [
+const elementSizesPx = module.exports.elementSizesPx = [
   128,
   360,
   640,
@@ -97,8 +97,8 @@ bgSizesPx.forEach((bgSize) => {
   })
 })
 
-export {
+module.exports = Object.assign({}, {
   sizes,
   iconSizes,
   bgSizes,
-}
+}, module.exports)

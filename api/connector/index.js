@@ -3,7 +3,7 @@ import camo, {connect,} from 'camo'
 import {forOwn,} from 'lodash'
 import staticConfig from '../../lib/config'
 
-import Theme, {Option,} from './schema/theme'
+import Theme from './schema/theme'
 import User from './schema/user'
 import Session from './schema/session'
 import Rating from './schema/rating'
@@ -110,7 +110,6 @@ export default async () => {
     Theme,
     User,
     Session,
-    Option,
     Rating,
   }
 }

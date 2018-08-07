@@ -1,6 +1,6 @@
-import gulp from 'gulp'
-import eagle from 'legal-eagle'
-import fs from 'fs'
+const gulp = require('gulp')
+const eagle = require('legal-eagle')
+const fs = require('fs')
 
 gulp.task('licenses', (done) => {
   eagle({
