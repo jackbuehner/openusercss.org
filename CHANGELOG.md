@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.9.0"></a>
+# [1.9.0](https://github.com/OpenUserCSS/openusercss.org/compare/v1.8.0...v1.9.0) (2018-08-07)
+
+
+### Bug Fixes
+
+* Request stats from saved theme in mutation ([110476c](https://github.com/OpenUserCSS/openusercss.org/commit/110476c))
+* **api:** Log deleted sessions count ([2d65fd2](https://github.com/OpenUserCSS/openusercss.org/commit/2d65fd2))
+
+
+### Features
+
+* **api:** Create scheduled tasks runner, delete invalid sessions over time ([3a9d4d9](https://github.com/OpenUserCSS/openusercss.org/commit/3a9d4d9))
+
+
+
 <a name="1.8.0"></a>
 # [1.8.0](https://github.com/OpenUserCSS/openusercss.org/compare/v1.7.0...v1.8.0) (2018-08-04)
 
