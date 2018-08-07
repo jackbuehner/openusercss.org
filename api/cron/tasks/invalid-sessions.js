@@ -35,6 +35,9 @@ export default class InvalidSessions extends Task {
       }
     })
 
-    return Promise.all(deletes)
+    return Promise.all(deletes).then((result) => {
+      log.info(`Deleted ${deletes.length} invalid sessions`)
+      return result
+    })
   }
 }
