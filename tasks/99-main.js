@@ -9,7 +9,7 @@ gulp.task('build', gulp.parallel(
   'static:email-templates',
 ))
 
-gulp.task('api:watch', gulp.parallel(
+gulp.task('api:fast', gulp.parallel(
   'licenses',
   'static:email',
   'static:email-templates',

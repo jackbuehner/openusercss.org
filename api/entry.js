@@ -1,14 +1,38 @@
 import log from 'chalk-console'
-
 import signals from 'lib/express/signal-handler'
-import {apiInit, apiServer,} from '~/combiner'
+import staticConfig from 'lib/config'
+import createApp from 'lib/create-express-app'
+import http from 'http'
+import {handler,} from '.'
 
-apiInit().catch(log.error)
+let server = null
+
+const init = async () => {
+  const config = await staticConfig()
+  const app = createApp({config,})
+
+  log.info(`API environment: ${app.get('env')}`)
+
+  await handler({
+    app,
+    config,
+    'mode': 'api',
+  })
+
+  server = http.createServer(app)
+
+  server.listen(config.get('ports.api.http'))
+  log.info(`API started (http): ${JSON.stringify(config.get('ports.api.http'))}`)
+}
+
+init().catch(log.error)
 
 signals({
   'name':   'API',
   'thread': process,
   cleanup () {
-    apiServer.close()
+    if (server) {
+      server.close()
+    }
   },
 })

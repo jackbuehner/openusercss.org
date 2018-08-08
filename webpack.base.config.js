@@ -5,26 +5,27 @@ if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'producti
   ].join(' '))
 }
 
+const isDev = process.env.NODE_ENV === 'development'
 const {
   DefinePlugin,
   BannerPlugin,
   NoEmitOnErrorsPlugin,
-  HotModuleReplacementPlugin,
 } = require('webpack')
 
 const path = require('path')
 const fs = require('fs')
+const git = require('git-revision')
 
 const nodeExternals = require('webpack-node-externals')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
-const git = require('git-revision')
+const NodemonPlugin = require('nodemon-webpack-plugin')
 
 /* eslint-disable-next-line no-sync */
 const licenses = fs.readFileSync('./licenses.json')
 
-module.exports = {
+const config = {
   'target':    'node',
-  'devtool':   'source-map',
+  'name':      'base',
   'mode':      process.env.NODE_ENV,
   'externals': nodeExternals({
     'whitelist': [
@@ -50,14 +51,6 @@ module.exports = {
     '__filename': true,
     '__dirname':  true,
   },
-  'entry': {
-    'api': [
-      './api/entry.js',
-    ],
-    'client': [
-      './client/entry.js',
-    ],
-  },
   'output': {
     'path':              path.resolve('./build'),
     'filename':          '[name].js',
@@ -80,13 +73,14 @@ module.exports = {
     new BannerPlugin({
       'raw':       true,
       'entryOnly': false,
-      'banner':    "require('source-map-support/register')",
+      'banner':    [
+        "require('source-map-support/register');",
+      ].join(''),
     }),
     new FriendlyErrorsWebpackPlugin({
       'clearConsole': process.env.NODE_ENV === 'development',
     }),
     new NoEmitOnErrorsPlugin(),
-    new HotModuleReplacementPlugin(),
   ],
   'module': {
     'rules': [
@@ -95,7 +89,7 @@ module.exports = {
         'loader': require.resolve('json-loader'),
       },
       {
-        'test':    /\.(js|jsx)$/,
+        'test':    /\.(js)$/,
         'loader':  require.resolve('babel-loader'),
         'exclude': [
           /node_modules/,
@@ -118,32 +112,35 @@ module.exports = {
           'plugins': [
             'transform-class-properties',
 
-            [
-              'transform-object-rest-spread',
-              {
-                'useBuiltIns': true,
-              },
-            ],
+            ['transform-object-rest-spread', {
+              'useBuiltIns': true,
+            }, ],
 
-            [
-              'transform-regenerator',
-              {
-                'async': false,
-              },
-            ],
+            ['transform-regenerator', {
+              'async': false,
+            }, ],
 
-            [
-              'transform-runtime',
-              {
-                'helpers':     false,
-                'polyfill':    false,
-                'regenerator': true,
-                'moduleName':  path.dirname(require.resolve('babel-runtime/package')),
-              },
-            ],
+            ['transform-runtime', {
+              'helpers':     false,
+              'polyfill':    false,
+              'regenerator': true,
+              'moduleName':  path.dirname(require.resolve('babel-runtime/package')),
+            }, ],
           ],
         },
       },
     ],
   },
 }
+
+if (isDev) {
+  config.plugins.push(new NodemonPlugin({
+    'quiet':  true,
+    'ignore': [
+      '*.js.map',
+      './node_modules/**/*',
+    ],
+  }),)
+}
+
+module.exports = config
