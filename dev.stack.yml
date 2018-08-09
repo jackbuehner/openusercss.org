@@ -1,7 +1,7 @@
 version: "2.3"
 
 services:
-  dev.openusercss:
+  app:
     depends_on:
       - mongodb
       - traefik
@@ -15,15 +15,15 @@ services:
       - ~/.cache/yarn:/.cache/yarn
     environment:
       DISPLAY: :0
-      OUC_DOMAIN: ${DOMAIN}
+      OUC_DOMAIN: ${OUC_DOMAIN}
     env_file:
       - .env
-      - ${ENV_FILE}
+      - .env.local
     labels:
-      - "traefik.api.frontend.rule=Host: api.${DOMAIN}"
+      - "traefik.api.frontend.rule=Host: api.${OUC_DOMAIN}"
       - "traefik.api.protocol=http"
       - "traefik.api.port=5000"
-      - "traefik.web.frontend.rule=Host: ${DOMAIN}"
+      - "traefik.web.frontend.rule=Host: ${OUC_DOMAIN}"
       - "traefik.web.protocol=http"
       - "traefik.web.port=5010"
     restart: always

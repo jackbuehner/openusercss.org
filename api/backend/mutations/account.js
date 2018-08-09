@@ -5,9 +5,9 @@ import {cloneDeep,} from 'lodash'
 import moment from 'moment'
 import {
   sendEmail as transportEmail,
-} from '../../email/mailer'
-import mustAuthenticate from '../../../lib/enforce-session'
-import staticConfig from '../../../lib/config'
+} from 'api/email/mailer'
+import mustAuthenticate from 'api/lib/enforce-session'
+import staticConfig from 'lib/config'
 
 const sendEmail = async (locals, {template,}) => {
   if (!locals.email) {

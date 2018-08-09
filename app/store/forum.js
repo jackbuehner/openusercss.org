@@ -1,4 +1,4 @@
-import client from '~/../lib/apollo-client'
+import client from '~/lib/apollo-client'
 
 import announcementsQuery from '~/apollo/queries/announcements.gql'
 

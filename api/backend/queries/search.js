@@ -1,5 +1,5 @@
 import raven from 'raven'
-import matomoTransformer from 'lib/matomo-to-graphql'
+import matomoTransformer from 'api/lib/matomo-to-graphql'
 import moment from 'moment'
 
 export default async (root, {terms, limit = 10, skip = 0,}, {Theme, User, matomo,}, {fieldNodes,}) => {

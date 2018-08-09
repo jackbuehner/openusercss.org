@@ -1,4 +1,4 @@
-import matomoTransformer from 'lib/matomo-to-graphql'
+import matomoTransformer from 'api/lib/matomo-to-graphql'
 import moment from 'moment'
 
 export default async (root, {id,}, {User, Theme, matomo,}, {fieldNodes,}) => {

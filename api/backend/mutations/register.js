@@ -5,9 +5,9 @@ import jwt from 'jsonwebtoken'
 import moment from 'moment'
 import {
   sendEmail,
-} from '../../email/mailer'
+} from 'api/email/mailer'
 
-import staticConfig from '../../../lib/config'
+import staticConfig from 'lib/config'
 
 const createSendEmail = async ({email, displayname,}) => {
   const config = await staticConfig()

@@ -1,4 +1,4 @@
-import client from '~/../lib/apollo-client'
+import client from '~/lib/apollo-client'
 
 import ratingsQuery from '~/apollo/queries/ratings.gql'
 import rateMutation from '~/apollo/mutations/rate.gql'

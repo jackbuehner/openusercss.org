@@ -1,5 +1,5 @@
+import client from '~/lib/apollo-client'
 import {struct,} from 'superstruct'
-import client from '~/../lib/apollo-client'
 
 import loginMutation from '~/apollo/mutations/login.gql'
 import logoutMutation from '~/apollo/mutations/logout.gql'

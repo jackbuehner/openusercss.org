@@ -1,4 +1,4 @@
-import client from '~/../lib/apollo-client'
+import client from '~/lib/apollo-client'
 import verifyEmailMutation from '~/apollo/mutations/verify-email.gql'
 import resendVerificationMutation from '~/apollo/mutations/resend-verification.gql'
 import accountMutation from '~/apollo/mutations/account.gql'

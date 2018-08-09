@@ -1,4 +1,4 @@
-import useSession from '../../../lib/use-session'
+import useSession from 'api/lib/use-session'
 
 export default async (root, options, {Session, headers, token,}) => {
   const session = await useSession(token, Session)

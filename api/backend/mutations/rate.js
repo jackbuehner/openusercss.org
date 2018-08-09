@@ -1,5 +1,5 @@
 import {ObjectID,} from 'mongodb'
-import mustAuthenticate from '../../../lib/enforce-session'
+import mustAuthenticate from 'api/lib/enforce-session'
 
 export default async (root, {id, value,}, {Session, Theme, Rating, User, token,}) => {
   const session = await mustAuthenticate(token, Session)

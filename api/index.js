@@ -1,6 +1,6 @@
 import secure from 'lib/express/secure'
-import routes from 'lib/express/api-routes'
-import cors from 'lib/express/cors'
+import routes from 'api/lib/routes'
+import cors from 'api/lib/cors'
 
 import scheduleTasks from './cron'
 

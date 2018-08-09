@@ -1,4 +1,4 @@
-import client from '~/../lib/apollo-client'
+import client from '~/lib/apollo-client'
 import assert from 'assert'
 
 import themeMutation from '~/apollo/mutations/theme.gql'

@@ -1,5 +1,5 @@
-import mustAuthenticate from 'lib/enforce-session'
-import matomoTransformer from 'lib/matomo-to-graphql'
+import mustAuthenticate from 'api/lib/enforce-session'
+import matomoTransformer from 'api/lib/matomo-to-graphql'
 
 import moment from 'moment'
 

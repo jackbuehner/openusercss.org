@@ -1,4 +1,4 @@
-import client from '~/../lib/apollo-client'
+import client from '~/lib/apollo-client'
 import licensesQuery from '~/apollo/queries/licenses.gql'
 
 export const state = () => ({

@@ -1,4 +1,4 @@
-import client from '~/../lib/apollo-client'
+import client from '~/lib/apollo-client'
 import searchQuery from '~/apollo/queries/search.gql'
 
 export const state = () => ({

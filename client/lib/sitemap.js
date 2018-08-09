@@ -1,5 +1,5 @@
 import {createSitemap,} from 'sitemap'
-import staticConfig from '../config'
+import staticConfig from 'lib/config'
 import moment from 'moment'
 import {XmlEntities,} from 'html-entities'
 

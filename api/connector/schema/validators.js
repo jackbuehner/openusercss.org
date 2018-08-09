@@ -1,7 +1,7 @@
 import moment from 'moment'
 import semver from 'semver'
 import urlRegex from './url-regex'
-import spdxList from '../../../lib/spdx-license-list'
+import spdxList from 'lib/spdx-license-list'
 
 export default {
   'spdxLicense': (value) => {

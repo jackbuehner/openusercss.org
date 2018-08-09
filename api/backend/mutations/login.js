@@ -1,5 +1,5 @@
-import staticConfig from '../../../lib/config'
-import {expected,} from '../../../lib/custom-errors'
+import staticConfig from 'lib/config'
+import {expected,} from 'api/lib/custom-errors'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
 import bcrypt from 'bcryptjs'

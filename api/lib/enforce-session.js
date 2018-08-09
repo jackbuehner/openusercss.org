@@ -1,4 +1,5 @@
-import staticConfig from './config'
+import raven from 'raven'
+import staticConfig from 'lib/config'
 import jwt from 'jsonwebtoken'
 
 export default async (token, Session) => {
@@ -9,6 +10,10 @@ export default async (token, Session) => {
     token,
   })
 
+  if (!session) {
+    throw new Error('session-invalid')
+  }
+
   try {
     jwt.verify(token, config.get('keypair.clientprivate'), {
       'issuer':     config.get('domain'),
@@ -17,7 +22,8 @@ export default async (token, Session) => {
       ],
     })
   } catch (error) {
-    session = null
+    raven.captureException(error)
+    throw new Error('session-invalid')
   }
 
   return session

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 
-import defaultClient from '~/../lib/apollo-client'
+import defaultClient from '~/lib/apollo-client'
 
 export default async (context, inject) => {
   const apolloProvider = new VueApollo({

@@ -1,5 +1,5 @@
 import secure from 'lib/express/secure'
-import routes from 'lib/express/client-routes'
+import routes from 'client/lib/routes'
 
 export const handler = async ({app, config, mode,}) => {
   await secure({app, config, mode,})

@@ -23,7 +23,6 @@ DOMAIN=$DEFAULT_DOMAIN
 ROOTLESS=$DEFAULT_ROOTLESS
 MANAGED_HOSTS=true
 FOR_TESTS=false
-ENV_FILE=.env.local
 CLEANUP_ONLY=false
 
 RED='\033[0;31m'
@@ -281,7 +280,7 @@ cleanup () {
   remove_domains
 
   info "Stopping and deleting containers"
-  DOMAIN=$DOMAIN ENV_FILE=$ENV_FILE docker-compose -f dev.stack.yml down 2>&1 | log
+  docker-compose -f dev.stack.yml down 2>&1 | log
 
   docker-clean | log
 
@@ -548,16 +547,15 @@ fi
 info "Rotate"
 
 if [ "$FOR_TESTS" = true ]; then
-  ENV_FILE=.test.env
   DOCKER_ARGS=-d
 fi
 
-DOMAIN=$DOMAIN ENV_FILE=$ENV_FILE docker-compose -f dev.stack.yml build 2>&1 | log || error \
+docker-compose -f dev.stack.yml build 2>&1 | log || error \
   "Building the stack image failed" 126
 
 countdown 2 "Gear up"
 
-DOMAIN=$DOMAIN ENV_FILE=$ENV_FILE docker-compose -f dev.stack.yml run $DOCKER_ARGS --rm dev.openusercss 2>&1 | log || error \
+docker-compose -f dev.stack.yml run $DOCKER_ARGS --rm app 2>&1 | log || error \
   "A runtime error occurred - There is likely additional logging output above" 1
 
 if [ "$FOR_TESTS" = false ]; then

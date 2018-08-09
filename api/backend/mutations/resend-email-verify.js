@@ -1,10 +1,10 @@
-import mustAuthenticate from '../../../lib/enforce-session'
-import staticConfig from '../../../lib/config'
+import mustAuthenticate from 'api/lib/enforce-session'
+import staticConfig from 'lib/config'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
 import {
   sendEmail,
-} from '../../email/mailer'
+} from 'api/email/mailer'
 
 const createSendEmail = async ({email, displayname,}) => {
   const config = await staticConfig()
