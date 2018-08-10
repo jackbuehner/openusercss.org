@@ -6,4 +6,4 @@ cd /ouc
 yarn --frozen-lockfile
 npm rebuild node-sass node-gyp
 
-yarn watch
+/usr/bin/supervisord -n -c /ouc/dev.supervisord.conf

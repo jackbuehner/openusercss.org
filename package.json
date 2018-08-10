@@ -31,7 +31,7 @@
     "prerelease": "./start.sh -m && standard-version && ./start.sh -c && yarn prod",
     "release": "TAG=decentm/openusercss DOMAIN=openusercss.org yarn env:prod docker-compose -f prod.stack.yml build",
     "postrelease": "git push --follow-tags origin master && docker push decentm/openusercss",
-    "prestage": "yarn prod",
+    "prestage": "yarn --frozen-lockfile && yarn ns && yarn prod",
     "stage": "TAG=decentm/openusercss-unstable DOMAIN=staging.openusercss.org yarn env:prod docker-compose -f prod.stack.yml build",
     "poststage": "docker push decentm/openusercss-unstable",
     "wp:dev": "yarn env:dev webpack --watch --progress --run-dev",
@@ -40,8 +40,7 @@
     "api:prod": "yarn wp:prod --config ./webpack.api.config.js",
     "client:dev": "yarn wp:dev --config ./webpack.client.config.js",
     "client:prod": "yarn wp:prod --config ./webpack.client.config.js",
-    "prod": "yarn env:prod gulp build && nuxt build && yarn concurrent 'yarn api:prod' 'yarn client:prod'",
-    "dev": "yarn concurrent 'yarn env:dev gulp client:watch' 'yarn client:dev' 'yarn api:dev'",
+    "prod": "yarn env:prod gulp build && nuxt build && yarn api:prod && yarn client:prod",
     "prewatch": "yarn env:dev gulp api:fast",
     "watch": "yarn dev"
   },

@@ -1,8 +1,7 @@
 FROM mhart/alpine-node:9.11.1
 LABEL maintainer="DecentM <decentm@decentm.com>"
 
-RUN apk update
-RUN apk add python make g++ krb5-dev git
+RUN apk --update add python make g++ krb5-dev git supervisor
 
 RUN mkdir -p /.yarn /.cache/yarn /.config && touch /.yarnrc /.babel.json
 RUN chown 1000:1000 -R /.yarn /.yarnrc /.cache/yarn /.babel.json /.config

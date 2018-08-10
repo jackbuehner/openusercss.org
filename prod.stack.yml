@@ -6,13 +6,14 @@ services:
       - mongodb
       - traefik
     image: ${TAG}
+    links:
+      - mongodb:mongodb
     build:
       context: .
       dockerfile: prod.dockerfile
     volumes:
       - .ignored/data:/ouc/build/data
     environment:
-      DISPLAY: :0
       NODE_ENV: production
       OUC_DATABASE_MAIN: mongodb://mongodb:27017/openusercss-main
       OUC_DOMAIN: ${DOMAIN}
@@ -26,16 +27,10 @@ services:
       - "traefik.web.protocol=http"
       - "traefik.web.port=5010"
     restart: always
-    stdin_open: true
-    tty: true
-    networks:
-      - gateway
     user: "1000"
 
   mongodb:
     image: mongo
-    networks:
-      - gateway
     volumes:
       - .ignored/database:/data/db
     restart: always
@@ -55,8 +50,3 @@ services:
       - ./traefik.toml:/traefik.toml
     restart: always
     mem_limit: 30m
-
-networks:
-  gateway:
-    driver: bridge
-    name: openusercss_gateway

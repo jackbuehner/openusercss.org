@@ -4,7 +4,7 @@ LABEL maintainer="DecentM <decentm@decentm.com>"
 RUN mkdir -p /ouc/app /.yarn /.cache/yarn /.config && touch /.babel.json
 RUN chown 1000:1000 -R /.yarn /.cache/yarn /.babel.json /.config /ouc
 
-RUN apk --update add git
+RUN apk --update add git supervisor
 
 COPY --chown=1000:1000 ./.yarnrc /ouc/
 COPY --chown=1000:1000 ./yarn.lock /ouc/
@@ -22,6 +22,7 @@ VOLUME ["/ouc/build/data"]
 EXPOSE 5000/tcp
 EXPOSE 5010/tcp
 
+COPY supervisord.conf /etc/supervisord.conf
 COPY --chown=1000:1000 ./.prod.env.local /ouc/.env
 COPY --chown=1000:1000 ./prod.entrypoint.sh /ouc/
 COPY --chown=1000:1000 ./app/static /ouc/app/static
