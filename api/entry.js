@@ -25,7 +25,7 @@ const init = async () => {
   log.info(`API started (http): ${JSON.stringify(config.get('ports.api.http'))}`)
 }
 
-init().catch(log.error)
+init().catch((error) => log.error(error.stack))
 
 signals({
   'name':   'API',

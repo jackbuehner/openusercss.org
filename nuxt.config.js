@@ -3,10 +3,6 @@ const willChange = require('postcss-will-change')
 const willChangeTransition = require('postcss-will-change-transition')
 const ellipsis = require('postcss-ellipsis')
 
-const dev = process.env.NODE_ENV === 'development'
-const ci = process.env.CI
-const analyze = dev && !ci
-
 const postcss = [
   // Syntax extending plugins
   rucksack({
@@ -22,7 +18,7 @@ const postcss = [
 ]
 
 module.exports = {
-  dev,
+  // dev,
   'srcDir': './app',
   'head':   {
     'titleTemplate': '%s - OpenUserCSS',
@@ -55,45 +51,68 @@ module.exports = {
     './node_modules/@riophae/vue-treeselect/dist/vue-treeselect.min.css',
     '~/scss/main.scss',
   ],
+  'build': {
+    postcss,
+
+    'cache': true,
+
+    extend (config, ctx) {
+      config.module.rules.push({
+        'test':   /\.pug$/,
+        'loader': 'pug-plain-loader',
+      })
+
+      config.module.rules.push({
+        'test': /\.md$/,
+        'use':  [
+          {
+            'loader': 'html-loader',
+          },
+          {
+            'loader':  'markdown-loader',
+            'options': {
+              /* your options here */
+            },
+          },
+        ],
+      })
+    },
+  },
   'env':     process.env,
   'plugins': [
-    '~/plugins/matomo-api',
-    '~/plugins/average-rating',
-    '~/plugins/vue-moment',
-    '~/plugins/vue-markdown',
-    '~/plugins/vue-filters',
-    '~/plugins/vue-modal',
-    '~/plugins/vue-apollo',
-    '~/plugins/vue-noscript',
-    '~/plugins/vee-validate',
-    '~/plugins/extension-data',
-    '~/plugins/static-data',
-    '~/plugins/proxy-image',
+    '~/plugins/matomo-api.js',
+    '~/plugins/average-rating.js',
+    '~/plugins/vue-moment.js',
+    '~/plugins/vue-markdown.js',
+    '~/plugins/vue-filters.js',
+    '~/plugins/vue-modal.js',
+    '~/plugins/vue-apollo.js',
+    '~/plugins/vue-noscript.js',
+    '~/plugins/vee-validate.js',
+    '~/plugins/extension-data.js',
+    '~/plugins/static-data.js',
+    '~/plugins/proxy-image.js',
     {
-      'src': '~/plugins/izitoast',
+      'src': '~/plugins/izitoast.js',
       'ssr': false,
     },
     {
-      'src': '~/plugins/vuex-persist',
+      'src': '~/plugins/vuex-persist.js',
       'ssr': false,
     },
   ],
   'modules': [
-    '~/modules/apollo',
+    '~/modules/apollo.js',
     [
-      '@nuxtjs/markdownit', {
-        'preset':  'default',
-        'breaks':  true,
-        'linkify': true,
-        'use':     [
-          [
-            'markdown-it-link-attributes', {
-              'attrs': {
-                'target': '_blank',
-                'rel':    'noopener nofollow',
-              },
-            },
-          ],
+      'nuxt-fontawesome', {
+        'component': 'fa-icon',
+        'imports':   [
+          {
+            'set':   '@fortawesome/free-solid-svg-icons',
+            'icons': [
+              'fas',
+            ],
+          },
         ],
       },
     ],
@@ -172,22 +191,5 @@ module.exports = {
         },
       },
     ],
-    [
-      'nuxt-fontawesome', {
-        'component': 'fa-icon',
-        'imports':   [
-          {
-            'set': '@fortawesome/fontawesome-free-solid',
-          },
-        ],
-      },
-    ],
   ],
-  'build': {
-    'vendor': [
-      'isomorphic-fetch',
-    ],
-    analyze,
-    postcss,
-  },
 }

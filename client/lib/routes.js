@@ -1,4 +1,4 @@
-import {Nuxt, Builder,} from 'nuxt'
+import {Nuxt, Builder,} from 'nuxt-edge'
 import express from 'express'
 import nuxtConfig from '~/nuxt.config'
 

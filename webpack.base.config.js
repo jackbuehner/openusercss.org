@@ -105,27 +105,11 @@ const config = {
                 'targets': {
                   'node': 'current',
                 },
-                'modules': false,
               },
             ],
           ],
           'plugins': [
-            'transform-class-properties',
-
-            ['transform-object-rest-spread', {
-              'useBuiltIns': true,
-            }, ],
-
-            ['transform-regenerator', {
-              'async': false,
-            }, ],
-
-            ['transform-runtime', {
-              'helpers':     false,
-              'polyfill':    false,
-              'regenerator': true,
-              'moduleName':  path.dirname(require.resolve('babel-runtime/package')),
-            }, ],
+            '@babel/plugin-proposal-object-rest-spread',
           ],
         },
       },
