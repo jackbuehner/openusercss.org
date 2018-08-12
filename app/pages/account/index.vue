@@ -14,6 +14,9 @@
   import sessionsQuery from '~/apollo/queries/sessions.gql'
 
   export default {
+    async asyncData (context) {
+      console.log(context)
+    },
     'transition': 'fade-zoom',
     'components': {
       spinner,
@@ -27,13 +30,13 @@
       return {
         'sessions': [],
         'email':    '',
-        'account':  {
-          'email':       '',
-          'password':    '',
-          'displayname': '',
-          'bio':         '',
-          'donationUrl': 'https://',
-        },
+        // 'account':  {
+        //   'email':       '',
+        //   'password':    '',
+        //   'displayname': '',
+        //   'bio':         '',
+        //   'donationUrl': 'https://',
+        // },
         'editing': {
           'email':       null,
           'password':    null,
@@ -49,9 +52,9 @@
     'apollo': {
       'sessions': sessionsQuery,
     },
-    created () {
-      this.account = cloneDeep(this.viewerUser)
-    },
+    // created () {
+    //   this.account = cloneDeep(this.viewerUser)
+    // },
     'methods': {
       parseUA,
       async resendVerification () {
@@ -91,14 +94,14 @@
       ...mapGetters({
         'loading': 'account/loading',
       }),
-      viewerUser () {
+      account () {
         let id = null
 
         if (this.viewer) {
           id = this.viewer._id
         }
 
-        return this.$store.getters['users/single'](id)
+        return cloneDeep(this.$store.getters['users/single'](id))
       },
       viewer () {
         return this.$store.getters['session/viewer']
@@ -169,7 +172,7 @@
   div.ouc-route-root
     .container.ouc-account-wrapper
       .section
-        div.ouc-logged-out(v-show="!viewer")
+        .ouc-logged-out(v-if="!account")
           p
             | This page allows you to edit account details,
             | but you're not logged in.
@@ -177,7 +180,7 @@
           p
             nuxt-link.button.is-brand-primary(to="/login") Click here to do so
 
-        no-ssr
+        .ouc-logged-in(v-else)
           form.ouc-logged-in(v-if="viewer", @submit.prevent="submitAccount")
             .tile.is-parent.is-paddingless
               .tile.is-child

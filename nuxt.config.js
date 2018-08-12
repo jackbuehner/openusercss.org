@@ -54,7 +54,20 @@ module.exports = {
   'build': {
     postcss,
 
-    'cache': true,
+    'extractCSS':   true,
+    'optimization': {
+      'splitChunks': {
+        'name':        true,
+        'cacheGroups': {
+          'styles': {
+            'name':    'styles',
+            'test':    /\.(css|vue)$/,
+            'chunks':  'all',
+            'enforce': true,
+          },
+        },
+      },
+    },
 
     extend (config, ctx) {
       config.module.rules.push({
@@ -69,16 +82,20 @@ module.exports = {
             'loader': 'html-loader',
           },
           {
-            'loader':  'markdown-loader',
-            'options': {
-              /* your options here */
-            },
+            'loader': 'markdown-loader',
           },
         ],
       })
+
+      return config
     },
   },
-  'env':     process.env,
+  'env': {
+    'NODE_ENV':    process.env.NODE_ENV,
+    'DOMAIN':      process.env.DOMAIN,
+    'OUC_DOMAIN':  process.env.OUC_DOMAIN,
+    'OUC_STAGING': process.env.OUC_STAGING,
+  },
   'plugins': [
     '~/plugins/matomo-api.js',
     '~/plugins/average-rating.js',

@@ -24,6 +24,7 @@ const matomo = new MatomoApi({
 
 export default (req, res, next) => {
   return connection.then((db) => ({
+    'tracing': process.env.NODE_ENV === 'development',
     'context': {
       'token': req.headers.authorization,
       matomo,
