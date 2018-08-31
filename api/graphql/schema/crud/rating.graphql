@@ -1,0 +1,11 @@
+type Rating {
+  _id:   ID!
+  user:  User!
+  theme: Theme!
+  value: Int!
+}
+
+input RatingInput {
+  id:    ID!
+  value: Int!
+}

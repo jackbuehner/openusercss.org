@@ -1,0 +1,57 @@
+# import Stats from '../imported/stats.graphql'
+
+type Theme {
+  _id:         ID!
+  user:        User!
+  title:       String!
+  description: String!
+  content:     String!
+  createdAt:   String!
+  lastUpdate:  String!
+  version:     String!
+  screenshots: [String]
+  license:     String!
+  variables:   [ThemeVariable]
+  stats:       Stats!
+}
+
+type ThemeVairableOption {
+  name:  String!
+  label: String!
+  value: String!
+}
+
+type ThemeVariable {
+  type:    String!
+  label:   String!
+  name:    String!
+  value:   String
+  default: String!
+  options: [ThemeVairableOption!]
+}
+
+input ThemeVariableOptionInput {
+  name:  String!
+  label: String!
+  value: String!
+}
+
+input ThemeVariableInput {
+  type:    String!
+  label:   String!
+  name:    String!
+  value:   String
+  default: String!
+  options: [ThemeVariableOptionInput!]
+}
+
+type ThemeInput {
+  id:          ID
+  title:       String!
+  description: String!
+  content:     String!
+  version:     String!
+  screenshots: [String]
+  variables:   [ThemeVariableInput]!
+  license:     String!
+}

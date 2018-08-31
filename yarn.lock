@@ -6894,6 +6894,16 @@ graphql-anywhere@^4.1.0-alpha.0, graphql-anywhere@^4.1.16:
   dependencies:
     apollo-utilities "^1.0.18"
 
+graphql-config@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/graphql-config/-/graphql-config-2.0.0.tgz#daf69091055c6f675d63893a2d14c48f3fec3327"
+  dependencies:
+    graphql-import "^0.4.0"
+    graphql-request "^1.4.0"
+    js-yaml "^3.10.0"
+    lodash "^4.17.4"
+    minimatch "^3.0.4"
+
 graphql-extensions@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/graphql-extensions/-/graphql-extensions-0.1.0.tgz#1818dd9bcb3e9e07a08a4401f52bac5e5db082f6"
@@ -6914,7 +6924,31 @@ graphql-extensions@^0.0.x, graphql-extensions@~0.0.9:
     core-js "^2.5.3"
     source-map-support "^0.5.1"
 
-graphql-request@^1:
+graphql-import-loader@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/graphql-import-loader/-/graphql-import-loader-0.2.1.tgz#be90aa5d4dd51b8bbd09ea716c2f8b186316268a"
+  dependencies:
+    graphql-import "^0.4.5"
+
+graphql-import@^0.4.0, graphql-import@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/graphql-import/-/graphql-import-0.4.5.tgz#e2f18c28d335733f46df8e0733d8deb1c6e2a645"
+  dependencies:
+    lodash "^4.17.4"
+
+graphql-playground-html@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/graphql-playground-html/-/graphql-playground-html-1.6.0.tgz#6ec4d54325ab2e5352506fdb89eb37c3fc718bf8"
+  dependencies:
+    graphql-config "2.0.0"
+
+graphql-playground-middleware-express@^1.7.3:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/graphql-playground-middleware-express/-/graphql-playground-middleware-express-1.7.3.tgz#3e8c0cb678270e290b4d4f163245b10d7c0a2a22"
+  dependencies:
+    graphql-playground-html "1.6.0"
+
+graphql-request@^1, graphql-request@^1.4.0:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-1.8.2.tgz#398d10ae15c585676741bde3fc01d5ca948f8fbe"
   dependencies:

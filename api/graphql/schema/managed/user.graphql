@@ -1,0 +1,14 @@
+type User {
+  _id:            ID!
+  username:       String!
+  displayname:    String!
+  avatarUrl:      String!
+  smallAvatarUrl: String!
+  lastSeen:       String!
+  lastSeenReason: String!
+  createdAt:      String!
+  lastUpdate:     String!
+  bio:            String!
+  donationUrl:    String!
+  stats:          Stats!
+}

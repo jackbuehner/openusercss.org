@@ -1,4 +1,4 @@
-import schema from 'api/backend'
+import schema from 'api/graphql'
 import connectMongo from 'api/connector'
 import MatomoApi from 'matomo-reporting-js'
 import fetch from 'node-fetch'

@@ -91,7 +91,7 @@ export default async (root, {email, password, displayname, bio, donationUrl,}, {
       'algorithm': 'HS256',
     })
 
-    link = `https://${config.get('domain')}/account/verify-email/${verificationToken}`
+    link = `https://${config.get('domain')}/verify-email/${verificationToken}`
   }
 
   if (bio) {

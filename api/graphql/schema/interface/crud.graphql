@@ -1,0 +1,7 @@
+interface Crud {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User!
+}

@@ -1,0 +1,6 @@
+type Version {
+  revisionLong:   String!
+  revisionShort:  String!
+  revisionTag:    String!
+  revisionBranch: String!
+}

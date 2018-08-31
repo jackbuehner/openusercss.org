@@ -1,0 +1,46 @@
+type Mutation {
+  viewer: User
+  logout: Boolean!
+  resendVerification: Boolean!
+
+  verifyEmail(token: String!): Boolean!
+
+  register(
+    displayname: String!
+    email:       String!
+    password:    String!
+  ): User!
+
+  login(
+    email:    String!
+    password: String!
+  ): Session!
+
+  deleteTheme(
+    id: ID!
+  ): Boolean!
+
+  theme(
+    id:          ID
+    title:       String!
+    description: String!
+    content:     String!
+    version:     String!
+    screenshots: [String]
+    variables:   [ThemeVariableInput]!
+    license:     String!
+  ): Theme!
+
+  account(
+    password:    String
+    displayname: String
+    email:       String
+    bio:         String
+    donationUrl: String
+  ): User!
+
+  rate(
+    id:    ID!
+    value: Int!
+  ): Rating!
+}

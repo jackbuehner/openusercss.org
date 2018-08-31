@@ -19,10 +19,10 @@ const createSendEmail = async ({email, displayname,}) => {
     'algorithm': 'HS256',
   })
 
-  let link = `https://${config.get('domain')}/account/verify-email/${token}`
+  let link = `https://${config.get('domain')}/verify-email/${token}`
 
   if (process.env.NODE_ENV === 'development') {
-    link = `http://${config.get('domain')}/account/verify-email/${token}`
+    link = `http://${config.get('domain')}/verify-email/${token}`
   }
 
   const expires = moment().add(1, 'days').format('MMMM Do, HH:mm ZZ')

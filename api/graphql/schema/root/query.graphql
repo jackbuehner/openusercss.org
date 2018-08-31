@@ -1,0 +1,35 @@
+# import {Rating} from '../crud/rating.graphql'
+# import {Theme} from '../crud/theme.graphql'
+#
+# import {User} from '../managed/user.graphql'
+# import {Session} from '../managed/session.graphql'
+#
+# import {Version} from '../managed/version.graphql'
+# import {License} from '../managed/license.graphql'
+#
+# import {SearchResults} from '../managed/search.graphql'
+# import {Topic} from '../imported/forums.graphql'
+
+type Query {
+  viewer: User
+  verifyToken: Session
+
+  version: Version!
+  licenses: [License!]!
+  sessions: [Session]!
+
+  forumTopics(id: Int!): [Topic]!
+  theme(id: ID!): Theme!
+  user(id: ID!): User!
+  userThemes(id: ID!): [Theme]!
+
+  search(
+    terms: String!
+    limit: Int
+    skip:  Int
+  ): SearchResults!
+
+  latestThemes(limit: Int): [Theme]!
+  popularThemes(limit: Int): [Theme]!
+  ratings(id: ID!): [Rating]!
+}

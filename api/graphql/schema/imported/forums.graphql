@@ -1,0 +1,6 @@
+type Topic {
+  title: String!
+  url: String!
+  created: String!
+  author: String!
+}

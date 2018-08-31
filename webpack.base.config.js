@@ -85,6 +85,10 @@ const config = {
   'module': {
     'rules': [
       {
+        'test':   /\.graphql$/,
+        'loader': require.resolve('graphql-import-loader'),
+      },
+      {
         'test':   /\.json$/,
         'loader': require.resolve('json-loader'),
       },
