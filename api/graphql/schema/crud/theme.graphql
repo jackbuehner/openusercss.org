@@ -1,19 +1,6 @@
+# import Crud from '../interface/crud.graphql'
 # import Stats from '../imported/stats.graphql'
-
-type Theme {
-  _id:         ID!
-  user:        User!
-  title:       String!
-  description: String!
-  content:     String!
-  createdAt:   String!
-  lastUpdate:  String!
-  version:     String!
-  screenshots: [String]
-  license:     String!
-  variables:   [ThemeVariable]
-  stats:       Stats!
-}
+# import {Rating} from './rating.graphql'
 
 type ThemeVairableOption {
   name:  String!
@@ -28,6 +15,24 @@ type ThemeVariable {
   value:   String
   default: String!
   options: [ThemeVairableOption!]
+}
+
+type Theme implements Crud {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User!
+  display:   String!
+
+  description: String!
+  content:     String!
+  version:     String!
+  screenshots: [String]
+  license:     String!
+  variables:   [ThemeVariable]
+  stats:       Stats!
+  ratings:     [Rating]!
 }
 
 input ThemeVariableOptionInput {

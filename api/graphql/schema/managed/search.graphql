@@ -1,4 +1,5 @@
+# import Crud from '../interface/crud.graphql'
+
 type SearchResults {
-  users:  [User]
-  themes: [Theme]
+  results: [Crud]!
 }

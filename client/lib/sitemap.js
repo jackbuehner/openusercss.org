@@ -3,24 +3,13 @@ import staticConfig from 'lib/config'
 import moment from 'moment'
 import {XmlEntities,} from 'html-entities'
 
-// import User from '../../api/connector/schema/user'
-import db from '../../api/connector'
+import {Theme,} from 'api/db/schema/theme'
+import {User,} from 'api/db/schema/user'
 
 const {encode,} = new XmlEntities()
-let collections = null
-
-const init = async () => {
-  collections = await db()
-}
 
 export default async (req, res, next) => {
-  if (!collections) {
-    return false
-  }
-
   const config = await staticConfig()
-  const {User, Theme,} = collections
-
   let prefix = 'https://'
 
   if (process.env.NODE_ENV === 'development') {
@@ -117,5 +106,3 @@ export default async (req, res, next) => {
   res.set('Content-Type', 'application/xml')
   return res.send(sitemap.toString())
 }
-
-init()

@@ -1,14 +1,20 @@
-type User {
-  _id:            ID!
+# import Crud from '../interface/crud.graphql'
+
+type User implements Crud {
+  id:             ID!
+  createdAt:      DateTime!
+  updatedAt:      DateTime!
+  createdBy:      User!
+  updatedBy:      User!
+  display:        String!
+
   username:       String!
-  displayname:    String!
   avatarUrl:      String!
   smallAvatarUrl: String!
   lastSeen:       String!
   lastSeenReason: String!
-  createdAt:      String!
-  lastUpdate:     String!
   bio:            String!
   donationUrl:    String!
   stats:          Stats!
+  themes:         [Theme]!
 }

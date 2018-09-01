@@ -1,11 +1,18 @@
-type Rating {
-  _id:   ID!
-  user:  User!
+# import Crud from '../interface/crud.graphql'
+
+type Rating implements Crud {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User!
+  display:   String!
+
   theme: Theme!
   value: Int!
 }
 
 input RatingInput {
-  id:    ID!
+  theme: ID!
   value: Int!
 }

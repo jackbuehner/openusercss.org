@@ -4,4 +4,5 @@ interface Crud {
   updatedAt: DateTime!
   createdBy: User!
   updatedBy: User!
+  display:   String!
 }

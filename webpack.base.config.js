@@ -93,6 +93,15 @@ const config = {
         'loader': require.resolve('json-loader'),
       },
       {
+        'test':    /\.js$/,
+        'loader':  require.resolve('webpack-import-glob'),
+        'enforce': 'pre',
+        'exclude': [
+          /node_modules/,
+          path.resolve('./build'),
+        ],
+      },
+      {
         'test':    /\.(js)$/,
         'loader':  require.resolve('babel-loader'),
         'exclude': [

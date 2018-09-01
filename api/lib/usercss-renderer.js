@@ -1,4 +1,4 @@
-import Theme from 'api/connector/schema/theme'
+import Theme from 'api/db/schema/theme'
 import {stringify,} from 'usercss-meta'
 
 export default async (req, res, next) => {

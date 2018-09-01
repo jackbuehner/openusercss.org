@@ -1,9 +1,13 @@
-type Session {
-  _id:       ID!
+# import Managed from '../interface/managed.graphql'
+
+type Session implements Managed {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
   user:      User!
   token:     String!
   expiresAt: String!
-  createdAt: String!
   ip:        String!
   ua:        String!
 }

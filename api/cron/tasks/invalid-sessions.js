@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import Task from '../task'
 import log from 'chalk-console'
 
-import Session from 'api/connector/schema/session'
+import Session from 'api/db/schema/session'
 import staticConfig from 'lib/config'
 
 export default class InvalidSessions extends Task {

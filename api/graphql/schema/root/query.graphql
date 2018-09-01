@@ -19,8 +19,8 @@ type Query {
   sessions: [Session]!
 
   forumTopics(id: Int!): [Topic]!
-  theme(id: ID!): Theme!
-  user(id: ID!): User!
+  theme(id: ID!): Theme
+  user(id: ID!): User
   userThemes(id: ID!): [Theme]!
 
   search(
@@ -31,5 +31,4 @@ type Query {
 
   latestThemes(limit: Int): [Theme]!
   popularThemes(limit: Int): [Theme]!
-  ratings(id: ID!): [Rating]!
 }
