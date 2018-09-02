@@ -1,6 +1,12 @@
 # import Crud from '../interface/crud.graphql'
+# import Managed from '../interface/managed.graphql'
+# import Node from '../interface/node.graphql'
 
-type Rating implements Crud {
+"""
+A Rating is a *CRUD* item that describes how much a user liked a particular theme.
+Each user can rate a theme once, after that the rating can only be changed.
+"""
+type Rating implements Crud & Managed & Node {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -9,10 +15,12 @@ type Rating implements Crud {
   display:   String!
 
   theme: Theme!
+  """The value can be *-1* or *1*, which will affect the overall score."""
   value: Int!
 }
 
 input RatingInput {
   theme: ID!
-  value: Int!
+  """The value can be *-1* or *1*, which will affect the overall score."""
+  value: Int
 }

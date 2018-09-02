@@ -2,11 +2,9 @@ import bcrypt from 'bcryptjs'
 import raven from 'raven'
 import jwt from 'jsonwebtoken'
 import {cloneDeep,} from 'lodash'
-import moment from 'moment'
 import {
   sendEmail as transportEmail,
 } from 'api/email/mailer'
-import mustAuthenticate from 'api/lib/enforce-session'
 import staticConfig from 'lib/config'
 
 const sendEmail = async (locals, {template,}) => {
@@ -39,12 +37,16 @@ const sendEmail = async (locals, {template,}) => {
   return result
 }
 
-export default async (root, {email, password, displayname, bio, donationUrl,}, {User, Session, token,}) => {
-  const session = await mustAuthenticate(token, Session)
+const resolver = async (root, {input,}, {User, Session, token, viewer,}) => {
+  if (!viewer) {
+    throw new Error('authorisation-required')
+  }
+
+  const {email, password, display, bio, donationUrl,} = input
   const config = await staticConfig()
   const saltRounds = parseInt(config.get('saltrounds'), 10)
-  const {user,} = session
-  const oldUser = cloneDeep(user)
+  const user = viewer
+  const oldUser = cloneDeep(viewer)
   let link = null
 
   // Password resets
@@ -59,26 +61,25 @@ export default async (root, {email, password, displayname, bio, donationUrl,}, {
   }
 
   // Username changing
-  if (displayname) {
-    raven.captureBreadcrumb({
-      'message': 'Changing displayname',
-    })
-    if (user.displayname === displayname) {
-      throw new Error('cannot-change-to-same-displayname')
+  if (display) {
+    if (user.display === display) {
+      throw new Error('cannot-change-to-same-display')
     }
+    raven.captureBreadcrumb({
+      'message': 'Changing display',
+    })
 
-    user.displayname = displayname
-    user.username = displayname.toLowerCase()
+    user.display = display
   }
 
   // E-mail address changing
   if (email) {
-    raven.captureBreadcrumb({
-      'message': 'Changing email',
-    })
     if (user.email === email) {
       throw new Error('cannot-change-to-same-email')
     }
+    raven.captureBreadcrumb({
+      'message': 'Changing email',
+    })
 
     user.pendingEmail = email
     user.emailVerified = false
@@ -108,7 +109,7 @@ export default async (root, {email, password, displayname, bio, donationUrl,}, {
     user.donationUrl = donationUrl
   }
 
-  user.lastSeen = moment().toJSON()
+  user.lastSeenAt = new Date()
   user.lastSeenReason = 'changing account details'
 
   // Try to save the user object
@@ -125,11 +126,11 @@ export default async (root, {email, password, displayname, bio, donationUrl,}, {
     })
   }
 
-  if (displayname) {
+  if (display) {
     await sendEmail({
       user,
       oldUser,
-      'newDisplayname': displayname,
+      'newDisplayname': display,
       'email':          user.email,
     }, {
       'template': 'username-changed',
@@ -166,4 +167,10 @@ export default async (root, {email, password, displayname, bio, donationUrl,}, {
   }
 
   return savedUser
+}
+
+export default {
+  'name': 'account',
+
+  resolver,
 }

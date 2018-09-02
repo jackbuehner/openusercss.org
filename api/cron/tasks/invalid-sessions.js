@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import Task from '../task'
 import log from 'chalk-console'
 
-import Session from 'api/db/schema/session'
+import {Session,} from 'api/db/schema/session'
 import staticConfig from 'lib/config'
 
 export default class InvalidSessions extends Task {
@@ -31,7 +31,7 @@ export default class InvalidSessions extends Task {
         log.info(`${session._id} valid`)
       } catch (error) {
         log.info(`${session._id} invalid, deleting`)
-        deletes.push(session.delete())
+        deletes.push(session.remove())
       }
     })
 

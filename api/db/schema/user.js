@@ -87,38 +87,6 @@ const userSchema = crud({
       },
     },
   },
-  'avatarUrl': {
-    'type':     String,
-    'required': true,
-    'validate': {
-      validator (value) {
-        const format = validators.regex({
-          'preset': 'url',
-        })
-
-        return format
-      },
-      message (props) {
-        return 'Avatar URL is not a valid URL'
-      },
-    },
-  },
-  'smallAvatarUrl': {
-    'type':     String,
-    'required': true,
-    'validate': {
-      validator (value) {
-        const format = validators.regex({
-          'preset': 'url',
-        })
-
-        return format
-      },
-      message (props) {
-        return 'Small avatar URL is not a valid URL'
-      },
-    },
-  },
 })
 
 export const User = mongoose.model('User', userSchema)

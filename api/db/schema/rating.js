@@ -1,6 +1,6 @@
-import mongoose, {managed, Schema,} from '../interface/managed'
+import mongoose, {crud, Schema,} from '../interface/crud'
 
-const ratingSchema = managed({
+const ratingSchema = crud({
   'createdBy': {
     'type':     Schema.Types.ObjectId,
     'required': true,

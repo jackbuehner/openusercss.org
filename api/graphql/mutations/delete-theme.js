@@ -1,21 +1,18 @@
-import mustAuthenticate from 'api/lib/enforce-session'
+export default {
+  'name': 'deleteTheme',
 
-export default async (root, {id,}, {Session, Theme, token,}) => {
-  const session = await mustAuthenticate(token, Session)
-  const theme = await Theme.findOne({
-    '_id': id,
-  })
-  let userOwnsTheme = false
+  async resolver (root, {id,}, {Session, Theme, token, viewer,}) {
+    const theme = await Theme.findById(id)
+    let userOwnsTheme = false
 
-  if (theme) {
-    userOwnsTheme = session.user._id.equals(theme.user._id)
-  }
+    if (theme) {
+      userOwnsTheme = theme.createdBy.equals(viewer.id)
+    }
 
-  if (!theme || !userOwnsTheme) {
-    throw new Error('no-such-theme')
-  }
+    if (!theme || !userOwnsTheme) {
+      return false
+    }
 
-  const result = await theme.delete()
-
-  return result
+    return theme.remove()
+  },
 }

@@ -1,0 +1,54 @@
+# import DateTime from '../scalar/date-time.graphql'
+# import Crud from '../interface/crud.graphql'
+
+type SearchResults {
+  results: [Crud]!
+}
+
+input SearchFilterStringInput {
+  equals:      String
+  contains:    String
+  notContains: String
+  between:     [String]
+  beginsWith:  String
+}
+
+input SearchFilterIDInput {
+  equals: String
+}
+
+input SearchFilterDateInput {
+  accuracy: Int
+  at:       DateTime
+  before:   DateTime
+  after:    DateTime
+}
+
+input SearchFilterUserInput {
+  id:        SearchFilterIDInput
+  createdBy: SearchFilterUserInput
+  updatedBy: SearchFilterUserInput
+  createdAt: SearchFilterDateInput
+  updatedAt: SearchFilterDateInput
+  display:   SearchFilterStringInput
+
+  lastSeen:  SearchFilterDateInput
+  bio:       SearchFilterStringInput
+}
+
+input SearchFilterInput {
+  fullText:  SearchFilterStringInput
+
+  id:        SearchFilterIDInput
+  createdBy: SearchFilterUserInput
+  updatedBy: SearchFilterUserInput
+  createdAt: SearchFilterDateInput
+  updatedAt: SearchFilterDateInput
+  display:   SearchFilterStringInput
+}
+
+input SearchInput {
+  where: SearchFilterInput!
+  limit: Int
+  skip:  Int
+}

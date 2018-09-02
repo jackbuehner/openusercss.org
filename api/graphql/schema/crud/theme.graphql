@@ -1,6 +1,11 @@
 # import Crud from '../interface/crud.graphql'
+# import Managed from '../interface/managed.graphql'
+# import Node from '../interface/node.graphql'
+#
 # import Stats from '../imported/stats.graphql'
 # import {Rating} from './rating.graphql'
+#
+# import URL from '../scalar/url.graphql'
 
 type ThemeVairableOption {
   name:  String!
@@ -17,7 +22,12 @@ type ThemeVariable {
   options: [ThemeVairableOption!]
 }
 
-type Theme implements Crud {
+type ThemeRating {
+  value: Int!
+  count: Int!
+}
+
+type Theme implements Crud & Managed & Node {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -28,11 +38,11 @@ type Theme implements Crud {
   description: String!
   content:     String!
   version:     String!
-  screenshots: [String]
+  screenshots: [URL]!
   license:     String!
-  variables:   [ThemeVariable]
+  variables:   [ThemeVariable]!
   stats:       Stats!
-  ratings:     [Rating]!
+  rating:      ThemeRating!
 }
 
 input ThemeVariableOptionInput {
@@ -50,13 +60,13 @@ input ThemeVariableInput {
   options: [ThemeVariableOptionInput!]
 }
 
-type ThemeInput {
+input ThemeInput {
   id:          ID
-  title:       String!
+  display:     String!
   description: String!
   content:     String!
   version:     String!
-  screenshots: [String]
+  screenshots: [URL]!
   variables:   [ThemeVariableInput]!
   license:     String!
 }

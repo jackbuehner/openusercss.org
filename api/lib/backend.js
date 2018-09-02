@@ -4,6 +4,11 @@ import fetch from 'node-fetch'
 import raven from 'raven'
 import {Agent,} from 'https'
 
+import log from 'chalk-console'
+import pify from 'pify'
+import staticConfig from 'lib/config'
+import jwt from 'jsonwebtoken'
+
 import db from 'api/db'
 
 const agent = new Agent({
@@ -22,14 +27,36 @@ const matomo = new MatomoApi({
   'idSite':   10,
 })
 
-export default (req, res, next) => {
+const getViewer = async (token, {User,}) => {
+  const config = await staticConfig()
+  let viewer = null
+
+  if (!token) {
+    return null
+  }
+
+  try {
+    const decoded = await pify(jwt.verify)(token, config.get('keypair.clientprivate'))
+
+    viewer = User.findById(decoded.userId)
+  } catch (error) {
+    return null
+  }
+
+  return viewer
+}
+
+export default async (req, res, next) => {
   const model = db()
+  const token = req.headers.authorization
+  const viewer = await getViewer(token, model)
 
   return {
     'tracing': process.env.NODE_ENV === 'development',
     'context': {
-      'token': req.headers.authorization,
+      token,
       matomo,
+      viewer,
       ...req,
       ...model,
     },

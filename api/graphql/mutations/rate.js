@@ -1,44 +1,46 @@
-import {ObjectID,} from 'mongodb'
-import mustAuthenticate from 'api/lib/enforce-session'
-
-export default async (root, {id, value,}, {Session, Theme, Rating, User, token,}) => {
-  const session = await mustAuthenticate(token, Session)
-  const user = await User.findOne({
-    '_id': session.user._id,
-  })
-  const theme = await Theme.findOne({
-    '_id': id,
-  })
+const resolver = async (root, {input,}, {Session, Theme, Rating, User, token, viewer,}) => {
+  const {theme, value,} = input
+  const foundTheme = await Theme.findById(theme)
 
   // Sanity checks
-  if (!theme) {
+  if (!foundTheme) {
     throw new Error('no-such-theme')
   }
 
-  if (theme.user._id.equals(user._id)) {
+  if (foundTheme.createdBy.equals(viewer.id)) {
     throw new Error('cannot-rate-own-theme')
   }
 
   // Load the existing rating object
   let existing = await Rating.findOne({
-    'theme': new ObjectID(id),
-    'user':  user._id,
+    theme,
+    'user': viewer.id,
   })
 
   if (existing) {
     // If we found an existing rating, update it
+    existing.updatedAt = new Date()
+    existing.updatedBy = viewer.id
     existing.value = value
     existing.theme = theme
   } else {
     // Otherwise, create a new one
-    existing = Rating.create({
-      user,
+    existing = new Rating({
+      'createdAt': new Date(),
+      'updatedAt': new Date(),
+      'createdBy': viewer.id,
+      'updatedBy': viewer.id,
+      'display':   'A Rating',
       theme,
       value,
     })
   }
 
-  await existing.save()
+  return existing.save()
+}
 
-  return existing
+export default {
+  'name': 'rate',
+
+  resolver,
 }

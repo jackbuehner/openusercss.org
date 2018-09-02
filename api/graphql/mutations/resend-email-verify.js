@@ -36,22 +36,26 @@ const createSendEmail = async ({email, displayname,}) => {
   return result
 }
 
-export default async (root, options, {Session, token,}) => {
-  const session = await mustAuthenticate(token, Session)
+export default {
+  'name': 'resendVerification',
 
-  if (session.user.emailVerified) {
-    throw new Error('email-already-verified')
-  }
+  async resolver (root, options, {Session, token,}) {
+    const session = await mustAuthenticate(token, Session)
 
-  const result = await createSendEmail(session.user)
+    if (session.user.emailVerified) {
+      throw new Error('email-already-verified')
+    }
 
-  if (!result.accepted) {
-    throw new Error('email-not-accepted')
-  }
+    const result = await createSendEmail(session.user)
 
-  if (result.accepted[0] !== session.user.email) {
-    throw new Error(result.accepted)
-  }
+    if (!result.accepted) {
+      throw new Error('email-not-accepted')
+    }
 
-  return true
+    if (result.accepted[0] !== session.user.email) {
+      throw new Error(result.accepted)
+    }
+
+    return true
+  },
 }

@@ -1,5 +1,0 @@
-# import Crud from '../interface/crud.graphql'
-
-type SearchResults {
-  results: [Crud]!
-}

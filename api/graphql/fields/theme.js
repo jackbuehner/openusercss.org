@@ -18,10 +18,21 @@ export default {
       return User.findById(updatedBy)
     },
 
-    ratings ({id,}, data, {Rating,}) {
-      return Rating.find({
+    async rating ({id,}, data, {Rating,}) {
+      const ratings = await Rating.find({
         'theme': id,
       })
+
+      const reducer = (acc, value) => {
+        const result = acc + value
+
+        return result
+      }
+
+      return {
+        'value': ratings.map((item) => item.value).reduce(reducer),
+        'count': ratings.length,
+      }
     },
 
     async stats ({id,}, data, {matomo,}) {

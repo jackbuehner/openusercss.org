@@ -2,7 +2,7 @@ import staticConfig from 'lib/config'
 import jwt from 'jsonwebtoken'
 import pify from 'pify'
 
-export default async (root, {token,}, {User,}) => {
+const resolver = async (root, {token,}, {User,}) => {
   const config = await staticConfig()
   const decoded = await pify(jwt.verify)(token, config.get('keypair.clientprivate'))
   let result = false
@@ -29,6 +29,7 @@ export default async (root, {token,}, {User,}) => {
       user.email = user.pendingEmail
       user.pendingEmail = ''
     }
+
     user.emailVerified = true
     await user.save()
 
@@ -36,4 +37,10 @@ export default async (root, {token,}, {User,}) => {
   }
 
   return result
+}
+
+export default {
+  'name': 'verifyEmail',
+
+  resolver,
 }

@@ -1,14 +1,14 @@
 # import {Rating} from '../crud/rating.graphql'
 # import {Theme} from '../crud/theme.graphql'
-#
-# import {User} from '../managed/user.graphql'
-# import {Session} from '../managed/session.graphql'
+# import {User} from '../crud/user.graphql'
+# import {Session} from '../crud/session.graphql'
 #
 # import {Version} from '../managed/version.graphql'
 # import {License} from '../managed/license.graphql'
 #
-# import {SearchResults} from '../managed/search.graphql'
 # import {Topic} from '../imported/forums.graphql'
+#
+# import {SearchInput, SearchResults} from '../simple/search.graphql'
 
 type Query {
   viewer: User
@@ -24,9 +24,7 @@ type Query {
   userThemes(id: ID!): [Theme]!
 
   search(
-    terms: String!
-    limit: Int
-    skip:  Int
+    input: SearchInput!
   ): SearchResults!
 
   latestThemes(limit: Int): [Theme]!

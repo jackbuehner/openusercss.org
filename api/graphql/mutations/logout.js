@@ -1,8 +1,11 @@
 import mustAuthenticate from 'api/lib/enforce-session'
 
-export default async (root, options, {Session, token,}) => {
-  const session = await mustAuthenticate(token, Session)
-  const result = await session.delete()
+export default {
+  'name': 'logout',
 
-  return result === 1
+  async resolver (root, options, {Session, token,}) {
+    const session = await mustAuthenticate(token, Session)
+
+    return session.remove()
+  },
 }

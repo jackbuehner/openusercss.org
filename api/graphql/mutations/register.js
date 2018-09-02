@@ -3,13 +3,11 @@ import log from 'chalk-console'
 import raven from 'raven'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
-import {
-  sendEmail,
-} from 'api/email/mailer'
+import {sendEmail,} from 'api/email/mailer'
 
 import staticConfig from 'lib/config'
 
-const createSendEmail = async ({email, displayname,}) => {
+const createSendEmail = async ({email, display,}) => {
   const config = await staticConfig()
   const token = jwt.sign({
     email,
@@ -31,7 +29,7 @@ const createSendEmail = async ({email, displayname,}) => {
     'to':       email,
     'template': 'email-verification-initial',
     'locals':   {
-      displayname,
+      display,
       link,
       expires,
     },
@@ -40,23 +38,37 @@ const createSendEmail = async ({email, displayname,}) => {
   return result
 }
 
-export default async (root, {displayname, email, password,}, {User, token,}) => {
-  const config = await staticConfig()
-  const salt = await bcrypt.genSalt(parseInt(config.get('saltrounds'), 10))
-  const hash = await bcrypt.hash(password, salt)
-  const newUser = await User.create({
-    'password': hash,
-    'username': displayname.toLowerCase(),
-    displayname,
-    email,
-  })
-  const savedUser = await newUser.save()
+export default {
+  'name': 'register',
 
-  createSendEmail(newUser)
-  .catch((error) => {
-    log.error(error.stack)
-    raven.captureException(error)
-  })
+  async resolver (root, {input,}, {User, token,}) {
+    const {display, email, password, bio, donationUrl,} = input
+    const config = await staticConfig()
+    const salt = await bcrypt.genSalt(parseInt(config.get('saltrounds'), 10))
+    const hash = await bcrypt.hash(password, salt)
+    const newUser = new User({
+      'createdAt':     new Date(),
+      'updatedAt':     new Date(),
+      'password':      hash,
+      'emailVerified': false,
+      'lastSeenAt':    new Date(),
+      display,
+      email,
+      bio,
+      donationUrl,
+    })
 
-  return savedUser
+    newUser.createdBy = newUser.id
+    newUser.updatedBy = newUser.id
+
+    const savedUser = await newUser.save()
+
+    createSendEmail(newUser)
+    .catch((error) => {
+      log.error(error.stack)
+      raven.captureException(error)
+    })
+
+    return savedUser
+  },
 }

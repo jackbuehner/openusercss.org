@@ -1,5 +1,6 @@
 import moment from 'moment'
 import matomoTransformer from 'api/lib/matomo-to-graphql'
+import gravatar from 'gravatar-url'
 
 export default {
   'name':  'User',
@@ -22,6 +23,10 @@ export default {
       return Theme.find({
         'createdBy': id,
       })
+    },
+
+    avatarUrl ({email,}, {size = 256, 'default': def = 'mp', rating = 'g',}) {
+      return gravatar(email, {size, 'default': def, rating,})
     },
 
     async stats ({id,}, data, {matomo,}) {

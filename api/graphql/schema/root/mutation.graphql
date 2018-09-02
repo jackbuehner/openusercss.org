@@ -1,46 +1,35 @@
+# import {UserInput} from '../crud/user.graphql'
+# import {SessionInput} from '../crud/session.graphql'
+# import {ThemeInput} from '../crud/theme.graphql'
+# import {RatingInput} from '../crud/rating.graphql'
+
 type Mutation {
-  viewer: User
   logout: Boolean!
   resendVerification: Boolean!
 
   verifyEmail(token: String!): Boolean!
 
   register(
-    displayname: String!
-    email:       String!
-    password:    String!
+    input: UserInput!
   ): User!
 
   login(
-    email:    String!
-    password: String!
+    input: SessionInput!
   ): Session!
+
+  theme(
+    input: ThemeInput!
+  ): Theme!
 
   deleteTheme(
     id: ID!
   ): Boolean!
 
-  theme(
-    id:          ID
-    title:       String!
-    description: String!
-    content:     String!
-    version:     String!
-    screenshots: [String]
-    variables:   [ThemeVariableInput]!
-    license:     String!
-  ): Theme!
-
   account(
-    password:    String
-    displayname: String
-    email:       String
-    bio:         String
-    donationUrl: String
+    input: UserInput!
   ): User!
 
   rate(
-    id:    ID!
-    value: Int!
+    input: RatingInput!
   ): Rating!
 }

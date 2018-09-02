@@ -5,9 +5,10 @@ import moment from 'moment'
 import bcrypt from 'bcryptjs'
 
 const {AuthenticationError,} = expected
-const invalidCreds = 'credentials-invalid'
+const invalidCreds = 'authorisation-required'
 
-export default async (root, {email, password,}, {User, Session, Theme, headers, connection,}) => {
+const resolver = async (root, {input,}, {User, Session, Theme, headers, connection,}) => {
+  const {email, password,} = input
   const config = await staticConfig()
   const requestedUser = await User.findOne({
     email,
@@ -33,10 +34,13 @@ export default async (root, {email, password,}, {User, Session, Theme, headers, 
     'algorithm': 'HS256',
   })
 
-  const newSession = Session.create({
-    'user':      requestedUser,
+  const newSession = new Session({
+    'createdBy': requestedUser,
+    'updatedBy': requestedUser,
     'expiresAt': moment().add(60, 'days').toJSON(),
     'createdAt': moment().toJSON(),
+    'updatedAt': moment().toJSON(),
+    'display':   'A Session',
     'ua':        headers['user-agent'],
     'ip':        headers['x-forwarded-for'] || connection.remoteAddress,
     token,
@@ -45,10 +49,16 @@ export default async (root, {email, password,}, {User, Session, Theme, headers, 
   requestedUser.lastSeen = moment().toJSON()
   requestedUser.lastSeenReason = 'logging in'
 
-  const user = await requestedUser.save()
-
-  newSession.user = user
-  const session = await newSession.save()
+  const [ session, ] = await Promise.all([
+    await newSession.save(),
+    await requestedUser.save(),
+  ])
 
   return session
+}
+
+export default {
+  'name': 'login',
+
+  resolver,
 }

@@ -1,10 +1,5 @@
 export default {
-  'name':  'Rating',
-  'query': 'ratings',
-
-  root (root, {id,}, {Rating,}) {
-    return Rating.findById(id)
-  },
+  'name': 'Rating',
 
   'Rating': {
     createdBy ({createdBy,}, data, {User,}) {
@@ -13,6 +8,10 @@ export default {
 
     updatedBy ({updatedBy,}, data, {User,}) {
       return User.findById(updatedBy)
+    },
+
+    theme ({theme,}, data, {Theme,}) {
+      return Theme.findById(theme)
     },
   },
 }
